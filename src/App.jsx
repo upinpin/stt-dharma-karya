@@ -95,18 +95,18 @@ function HomePublic() {
             </div>
           </div>
 
-          <nav className="w-full md:w-auto flex items-center justify-start md:justify-center gap-1 overflow-x-auto pb-1 text-[11px] font-bold uppercase tracking-[0.14em] text-stone-600">
+          <nav className="nav-scroll w-full md:w-auto flex items-center justify-start md:justify-center gap-1 overflow-x-auto pb-1 text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.1em] sm:tracking-[0.14em] text-stone-600">
             {[
               { id: 'beranda', label: 'BERANDA' },
               { id: 'profil', label: 'PROFIL' },
-              { id: 'presidium', label: 'PRESIDIUM INTI' },
+              { id: 'presidium', label: 'PRESIDIUM' },
               { id: 'kegiatan', label: 'KEGIATAN' },
               { id: 'galeri', label: 'GALERI' },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => handleNavClick(tab.id)}
-                className={`shrink-0 px-3.5 py-2 rounded-xl transition duration-200 ${
+                className={`shrink-0 px-2.5 sm:px-3.5 py-2 rounded-xl transition duration-200 ${
                   activeSection === tab.id && !selectedBerita
                     ? 'bg-[#5C0A0A] text-amber-300 font-extrabold shadow-md border border-[#D4AF37]/40'
                     : 'hover:text-[#5C0A0A] hover:bg-stone-100'
@@ -486,6 +486,29 @@ function HomePublic() {
           </p>
 
           <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent my-2"></div>
+
+          <div className="flex flex-wrap justify-center gap-3">
+            <a
+              href="https://www.instagram.com/sttdharmakarya17?stkn=MTJiZnRqandqcmFzeg=="
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Instagram STT Dharma Karya"
+              title="Instagram STT Dharma Karya"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#D4AF37]/60 p-2 transition hover:bg-[#5C0A0A]"
+            >
+              <img src="https://cdn.simpleicons.org/instagram/D4AF37" alt="Instagram" className="h-full w-full object-contain" />
+            </a>
+            <a
+              href="https://www.tiktok.com/@sttdharmakarya17?_r=1&_t=ZS-99a0QfPUzwL"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="TikTok STT Dharma Karya"
+              title="TikTok STT Dharma Karya"
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-[#D4AF37]/60 p-2 transition hover:bg-[#5C0A0A]"
+            >
+              <img src="https://cdn.simpleicons.org/tiktok/D4AF37" alt="TikTok" className="h-full w-full object-contain" />
+            </a>
+          </div>
 
           <p className="text-xs font-bold text-[#D4AF37] tracking-widest uppercase">
             © 2026 Media & Informasi STT Dharma Karya
