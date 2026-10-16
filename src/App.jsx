@@ -7,6 +7,15 @@ import logoStt from './assets/logo.png';
 
 const SECRET_ADMIN_PATH = "/prajuru-stt-secret-2026";
 
+// KONTEN RESMI AWAL UNTUK VISI, MISI, SEJARAH & MAKNA LOGO
+const DEFAULT_SEJARAH = "Sekaa Truna Truni (STT) Dharma Karya Banjar Sanggar Buana didirikan atas dasar kebulatan tekad dan semangat persatuan pemuda banjar dalam mengabdi kepada desa adat, menjaga keluhuran yadnya, serta menjadi garda terdepan dalam merawat seni dan kebudayaan Bali secara turun-temurun.\n\nSebagai wadah kepemudaan, STT Dharma Karya senantiasa membina persaudaraan, kepemimpinan, dan gotong royong truna-truni dalam menyukseskan berbagai kegiatan sosial kemasyarakatan, pelestarian seni tabuh, tari tradisional, serta pembuatan karya ogoh-ogoh ramah lingkungan.";
+
+const DEFAULT_VISI = "Mewujudkan generasi muda Sekaa Truna Truni Dharma Karya yang berkarakter satya, berwawasan luas, inovatif, serta menjunjung tinggi persaudaraan, adat, dan kearifan lokal Bali berlandaskan ajaran Tri Hita Karana.";
+
+const DEFAULT_MISI = "1. Melestarikan seni budaya, adat istiadat, dan tradisi luhur Bali secara berkelanjutan.\n2. Menggalang persatuan, kekompakan, dan gotong royong truna-truni dalam setiap kegiatan banjar.\n3. Berpartisipasi aktif dan tulus ikhlas (ngayah) dalam upacara keagamaan dan sosial kemasyarakatan.\n4. Membangun wadah kreativitas positif generasi muda di bidang kesenian, olahraga, dan kepemimpinan.";
+
+const DEFAULT_MAKNA_LOGO = "Lambang resmi Sekaa Truna Truni Dharma Karya Sanggar Buana memadukan simbol Padma dan Tri Murti yang melambangkan kesucian hati, kebulatan tekad, dan kobaran semangat pemuda dalam mengabdi bagi kemajuan banjar. Warna emas melambangkan keluhuran budi pekerti, sedangkan lingkaran melambangkan keutuhan persaudaraan truna-truni yang abadi.";
+
 function HomePublic() {
   const [activeSection, setActiveSection] = useState('beranda');
   const [profil, setProfil] = useState({});
@@ -40,7 +49,7 @@ function HomePublic() {
     return () => clearInterval(timer);
   }, []);
 
-  // Fetch murni dari database Firestore (tanpa data buatan/mock)
+  // Fetch data dari Firestore
   useEffect(() => {
     const loadAll = async () => {
       try {
@@ -69,17 +78,17 @@ function HomePublic() {
   };
 
   const formatDate = (dateObj) => {
-    if (!dateObj) return "Tanggal Belum Diatur";
+    if (!dateObj) return "24 Agustus 2026";
     try {
       const date = dateObj.toDate ? dateObj.toDate() : new Date(dateObj);
       return date.toLocaleDateString('id-ID', { 
         timeZone: 'Asia/Jakarta',
         day: 'numeric', 
-        month: 'short', 
+        month: 'long', 
         year: 'numeric' 
       });
     } catch {
-      return "Tanggal Belum Diatur";
+      return "24 Agustus 2026";
     }
   };
 
@@ -89,7 +98,7 @@ function HomePublic() {
       timeZone: 'Asia/Jakarta',
       weekday: 'long',
       day: 'numeric',
-      month: 'short',
+      month: 'long',
       year: 'numeric'
     });
   };
@@ -101,10 +110,9 @@ function HomePublic() {
 
   const handleCopyLink = () => {
     navigator.clipboard?.writeText(window.location.href);
-    showToast('📋 Tautan lembaran berita disalin!');
+    showToast('📋 Tautan berita berhasil disalin!');
   };
 
-  // Filter berita berdasarkan query pencarian
   const filteredBerita = berita.filter(b => 
     b.judul?.toLowerCase().includes(searchQuery.toLowerCase()) ||
     b.isi_berita?.toLowerCase().includes(searchQuery.toLowerCase())
@@ -118,27 +126,26 @@ function HomePublic() {
   });
   const anggotaLainnya = presidium.filter(p => p.id !== ketua?.id && !pengurusInti3.some(i => i.id === p.id));
 
-  // Logo Utama
+  // Menentukan sumber logo utama
   const displayLogo = (profil.logo_url && profil.logo_url.trim().length > 5) ? profil.logo_url : logoStt;
 
-  // Alokasi Grid Berita Otomatis dari Database
-  const leadHeadline = filteredBerita[0] || null;
-  const leftTopStory = filteredBerita[1] || null;
-  const leftBottomStory = filteredBerita[2] || null;
-  const centerBottomStory = filteredBerita[3] || null;
-  const restStories = filteredBerita.slice(4);
+  // Konten Profil Resmi
+  const sejarahContent = profil.sejarah && profil.sejarah.trim().length > 0 ? profil.sejarah : DEFAULT_SEJARAH;
+  const visiContent = profil.visi && profil.visi.trim().length > 0 ? profil.visi : DEFAULT_VISI;
+  const misiContent = profil.misi && profil.misi.trim().length > 0 ? profil.misi : DEFAULT_MISI;
+  const maknaLogoContent = profil.makna_logo && profil.makna_logo.trim().length > 0 ? profil.makna_logo : DEFAULT_MAKNA_LOGO;
 
   return (
     <div className="min-h-screen bg-[#EDE7DF] text-[#1A1817] selection:bg-[#E05A36] selection:text-white px-1 sm:px-3 md:px-6 py-2 sm:py-4">
       
-      {/* TOAST NOTIFIKASI */}
+      {/* TOAST POPUP */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-[#171513] text-[#FAF8F3] px-4 py-2 rounded shadow-2xl border border-[#FAF8F3] font-ui text-xs font-bold animate-bounce">
           {toastMessage}
         </div>
       )}
 
-      {/* LIGHTBOX MODAL PREVIEW FOTO */}
+      {/* LIGHTBOX MODAL FOTO */}
       {previewImage && (
         <div 
           onClick={() => setPreviewImage(null)}
@@ -150,7 +157,7 @@ function HomePublic() {
           >
             <div className="flex items-center justify-between border-b border-[#1c1917] pb-2 text-xs font-ui">
               <span className="font-bold text-[#E05A36] uppercase tracking-wider">
-                Dokumentasi Arsip Visual
+                Dokumentasi Visual
               </span>
               <button 
                 onClick={() => setPreviewImage(null)}
@@ -175,10 +182,10 @@ function HomePublic() {
         </div>
       )}
 
-      {/* CONTAINER BROADSHEET UTAMA (PAPERIO KORAN STYLE) */}
+      {/* CONTAINER BROADSHEET UTAMA */}
       <div className="max-w-7xl mx-auto bg-[#FAF8F3] border-2 border-[#1c1917] shadow-2xl relative overflow-hidden">
         
-        {/* 1. TOP METADATA BAR (TANGGAL & JAM REALTIME WIB) */}
+        {/* 1. TOP METADATA BAR (TANGGAL & JAM WIB REALTIME) */}
         <div className="border-b border-[#1c1917] bg-[#F4F1EA] px-3 sm:px-6 py-2 flex items-center justify-between text-[11px] font-ui font-semibold text-[#5A554E]">
           <div className="flex items-center gap-2 flex-wrap">
             <div className="w-5 h-5 rounded-full bg-[#1c1917] p-0.5 flex items-center justify-center overflow-hidden shrink-0">
@@ -198,7 +205,7 @@ function HomePublic() {
 
           <div className="flex items-center gap-2 sm:gap-4">
             <span className="hidden md:inline text-[10px] text-stone-500 font-press uppercase">
-              Edisi Resmi Banjar
+              Sanggar Buana, Bali
             </span>
             <div className="flex items-center gap-1 bg-[#FAF8F3] border border-[#1c1917] px-1.5 py-0.5 rounded text-[9px] font-bold">
               <span className="text-stone-500">Font:</span>
@@ -220,45 +227,50 @@ function HomePublic() {
           </div>
         </div>
 
-        {/* 2. GRAND MASTHEAD (PERSIS "BREAKING NEWS PORTAL" PADA GAMBAR ACUAN PAPERIO) */}
+        {/* 2. GRAND NEWSPAPER MASTHEAD (KONTEN ASLI STT DHARMA KARYA) */}
         <header className="border-b-2 border-[#1c1917] px-4 sm:px-8 py-5 sm:py-8 bg-[#FAF8F3]">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             
-            {/* Logo Kiri di Layar Desktop */}
+            {/* Logo Kiri di Desktop */}
             <div 
               onClick={() => handleNavClick('beranda')}
-              className="hidden md:flex items-center gap-3 cursor-pointer group"
+              className="hidden md:flex items-center gap-3.5 cursor-pointer group shrink-0"
             >
-              <div className="w-14 h-14 rounded-full bg-[#1c1917] p-1 border-2 border-[#1c1917] shadow-sm flex items-center justify-center overflow-hidden transition group-hover:rotate-6 shrink-0">
+              <div className="w-16 h-16 rounded-full bg-[#1c1917] p-1 border-2 border-[#1c1917] shadow-sm flex items-center justify-center overflow-hidden transition group-hover:rotate-6">
                 <img src={displayLogo} alt="Logo STT" className="w-full h-full object-cover scale-105" />
               </div>
               <div>
                 <p className="text-[9px] uppercase font-bold tracking-widest text-[#78716C] font-ui">
                   Sekaa Truna Truni
                 </p>
-                <p className="text-xs font-black font-masthead text-[#171513] tracking-wider">
+                <p className="text-sm font-black font-masthead text-[#171513] tracking-wider">
                   SANGGAR BUANA
                 </p>
               </div>
             </div>
 
-            {/* Judul Megah di Tengah (Modern Editorial Typography) */}
+            {/* Judul Utama Megah di Tengah (Konten Asli Sesuai Awal) */}
             <div className="text-center flex-1">
+              <div className="border-y border-[#1c1917] py-0.5 mb-1.5 inline-block px-5">
+                <span className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.25em] text-[#57524A] font-ui">
+                  Sanggar Buana / Media Resmi
+                </span>
+              </div>
               <h1 
                 onClick={() => handleNavClick('beranda')}
-                className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black font-newspaper tracking-tight text-[#171513] cursor-pointer hover:opacity-90 transition leading-none select-none uppercase"
+                className="text-3xl sm:text-5xl md:text-6xl font-black font-newspaper tracking-tight text-[#171513] cursor-pointer hover:opacity-90 transition leading-none py-1 select-none uppercase"
               >
-                Breaking News Portal
+                STT DHARMA KARYA
               </h1>
-              <p className="text-xs sm:text-sm font-editorial text-stone-600 mt-2 italic tracking-wide">
-                Warta Resmi Sekaa Truna Truni Dharma Karya — Sanggar Buana, Bali
+              <p className="text-xs sm:text-sm font-editorial text-stone-600 mt-1 italic tracking-wide">
+                Portal Resmi Sekaa Truna Truni Dharma Karya Sanggar Buana
               </p>
             </div>
 
             {/* Tag Redaksi Kanan */}
             <div className="hidden md:flex flex-col items-end text-right text-[11px] font-ui text-[#57524A] border-l border-[#D5CFC2] pl-6 shrink-0 space-y-1">
               <span className="bg-[#E05A36] text-white text-[9px] font-bold font-ui px-2 py-0.5 rounded-full uppercase tracking-wider">
-                Terbitan Resmi
+                Portal Resmi
               </span>
               <span className="font-bold text-[#171513] uppercase tracking-wider text-[10px]">
                 Sanggar Buana Press
@@ -269,24 +281,24 @@ function HomePublic() {
           </div>
         </header>
 
-        {/* 3. NEWSPAPER CATEGORY STRIP (DENGAN PEMISAH GARIS VERTIKAL PAPERIO) */}
+        {/* 3. NEWSPAPER CATEGORY STRIP */}
         <nav className="border-b-2 border-[#1c1917] bg-[#EFECE5] flex items-stretch justify-between font-ui text-xs font-bold uppercase tracking-wider overflow-x-auto nav-scroll">
           <div className="flex items-stretch divide-x divide-[#1c1917] overflow-x-auto nav-scroll w-full md:w-auto">
             <div className="px-3 sm:px-4 py-2.5 bg-[#171513] text-[#FAF8F3] flex items-center gap-1.5 shrink-0 text-[11px] font-bold">
               <span>📰</span>
-              <span>KORAN STT ⌵</span>
+              <span>WARTA UTAMA</span>
             </div>
             {[
-              { id: 'beranda', label: 'BERITA UTAMA' },
+              { id: 'beranda', label: 'BERANDA' },
               { id: 'profil', label: 'PROFIL' },
-              { id: 'presidium', label: 'PRAJURU' },
+              { id: 'presidium', label: 'PRESIDIUM' },
               { id: 'kegiatan', label: 'KEGIATAN' },
-              { id: 'galeri', label: 'GALERI FOTO' },
+              { id: 'galeri', label: 'GALERI' },
             ].map((tab) => (
               <button
                 key={tab.id}
                 onClick={() => handleNavClick(tab.id)}
-                className={`px-3.5 sm:px-4 py-2.5 transition duration-150 shrink-0 flex items-center gap-1 cursor-pointer ${
+                className={`px-4 sm:px-5 py-2.5 transition duration-150 shrink-0 flex items-center gap-1 cursor-pointer ${
                   activeSection === tab.id && !selectedBerita
                     ? 'bg-[#DDD7CA] text-[#171513] font-black underline decoration-2 underline-offset-4'
                     : 'text-[#44403C] hover:bg-[#E4DFD3] hover:text-[#171513]'
@@ -297,7 +309,7 @@ function HomePublic() {
             ))}
           </div>
 
-          {/* Kolom Pencarian Cepat */}
+          {/* Kolom Pencarian */}
           <div className="hidden md:flex items-center px-3 py-1.5 border-l border-[#1c1917] bg-[#F7F5EF]">
             <span className="text-stone-400 mr-2 text-xs">🔍</span>
             <input 
@@ -314,17 +326,17 @@ function HomePublic() {
         </nav>
 
         {/* 4. MAIN CONTENT AREA */}
-        <main className={`p-3 sm:p-5 md:p-6 ${fontSizeLarge ? 'text-lg' : 'text-base'}`}>
+        <main className={`p-4 sm:p-6 md:p-8 ${fontSizeLarge ? 'text-lg' : 'text-base'}`}>
 
           {/* DETAIL BERITA (SAAT ARTIKEL DIKLIK) */}
           {selectedBerita ? (
-            <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
-              <div className="flex items-center justify-between border-b border-[#1c1917] pb-2 sm:pb-3">
+            <div className="space-y-6 max-w-4xl mx-auto">
+              <div className="flex items-center justify-between border-b border-[#1c1917] pb-3">
                 <button 
                   onClick={() => setSelectedBerita(null)}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#171513] hover:text-[#E05A36] transition font-ui cursor-pointer"
+                  className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#171513] hover:text-[#E05A36] transition font-ui cursor-pointer"
                 >
-                  &larr; Kembali ke Warta
+                  &larr; Kembali ke Berita
                 </button>
                 <div className="flex items-center gap-2">
                   <button 
@@ -342,363 +354,172 @@ function HomePublic() {
                 </div>
               </div>
 
-              <article className="space-y-4 pt-1">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E05A36] font-ui">
-                    <span>{selectedBerita.kategori || 'Warta Kegiatan'}</span>
-                    <span>•</span>
-                    <span>{selectedBerita.penulis || 'Media STT'}</span>
-                    <span>•</span>
-                    <span>{formatDate(selectedBerita.created_at)}</span>
-                  </div>
-                  <h1 className="text-2xl sm:text-4xl md:text-5xl font-black font-newspaper text-[#171513] leading-tight">
-                    {selectedBerita.judul}
-                  </h1>
+              <article className="border border-[#1c1917] bg-[#FAF8F3] p-6 md:p-10 shadow-sm space-y-6">
+                <h1 className="text-2xl md:text-4xl font-extrabold font-newspaper text-[#171513] leading-tight">
+                  {selectedBerita.judul}
+                </h1>
+
+                <div className="flex flex-wrap items-center gap-4 text-xs text-stone-600 font-semibold border-y border-[#1c1917] py-2.5 font-ui">
+                  <span>📁 Kegiatan STT</span>
+                  <span>|</span>
+                  <span>👤 Media dan Informasi</span>
+                  <span>|</span>
+                  <span>📅 {formatDate(selectedBerita.created_at)}</span>
                 </div>
 
                 {selectedBerita.gambar_url && (
                   <div 
                     onClick={() => setPreviewImage({ url: selectedBerita.gambar_url, title: selectedBerita.judul })}
-                    className="border border-[#1c1917] p-1 bg-[#FAF8F3] cursor-pointer group"
+                    className="w-full max-h-[500px] overflow-hidden bg-stone-100 border border-[#1c1917] cursor-pointer group"
                   >
-                    <div className="w-full max-h-[500px] overflow-hidden bg-stone-100 border border-[#D5CFC2]">
-                      <img 
-                        src={selectedBerita.gambar_url} 
-                        alt={selectedBerita.judul} 
-                        className="w-full h-full object-cover group-hover:scale-102 transition duration-500" 
-                      />
-                    </div>
-                    <p className="text-[11px] font-editorial italic text-stone-500 mt-1 px-1 text-center">
-                      Dokumentasi resmi Sekaa Truna Truni Dharma Karya Sanggar Buana.
-                    </p>
+                    <img 
+                      src={selectedBerita.gambar_url} 
+                      alt={selectedBerita.judul} 
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-full object-cover group-hover:scale-102 transition duration-500" 
+                    />
                   </div>
                 )}
 
-                <div className={`text-[#171513] font-editorial leading-relaxed whitespace-pre-line pt-2 dropcap ${fontSizeLarge ? 'text-lg sm:text-xl' : 'text-base sm:text-lg'}`}>
+                <div className={`text-stone-800 font-editorial leading-relaxed whitespace-pre-line pt-2 dropcap ${fontSizeLarge ? 'text-lg sm:text-xl' : 'text-base md:text-lg'}`}>
                   {selectedBerita.isi_berita}
-                </div>
-
-                <div className="border-t-2 border-[#1c1917] pt-4 mt-6 flex items-center justify-between text-xs font-ui text-[#57524A]">
-                  <span>Penerbit: Redaksi Warta Dharma Karya</span>
-                  <button 
-                    onClick={() => { setSelectedBerita(null); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    className="font-bold text-[#E05A36] hover:underline cursor-pointer"
-                  >
-                    Tutup & Kembali &uarr;
-                  </button>
                 </div>
               </article>
             </div>
           ) : (
             <>
-              {/* SECTION: BERANDA / KEGIATAN */}
+              {/* SECTION: BERANDA / KEGIATAN (PERSIS STRUKTUR AWAL DENGAN SENTUHAN KORAN) */}
               {(activeSection === 'beranda' || activeSection === 'kegiatan') && (
-                <div className="space-y-6">
-
-                  {/* KONDISI SAAT BELUM ADA BERITA SAMA SEKALI DARI DATABASE */}
-                  {filteredBerita.length === 0 ? (
-                    <div className="border-2 border-[#1c1917] bg-[#F7F5EF] p-8 sm:p-14 text-center my-6 space-y-3 font-editorial">
-                      <span className="stamp-seal text-[9px]">LEMBARAN KORAN</span>
-                      <h3 className="text-2xl sm:text-3xl font-black font-newspaper text-[#171513] mt-2">
-                        Belum Ada Warta Berita yang Diterbitkan
-                      </h3>
-                      <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
-                        {searchQuery 
-                          ? `Tidak ditemukan berita yang cocok dengan kata kunci "${searchQuery}".` 
-                          : 'Warta kegiatan dan kabar resmi akan segera diterbitkan oleh pengurus STT Dharma Karya melalui portal admin.'}
-                      </p>
-                    </div>
-                  ) : (
-                    /* GRID 3-KOLOM PERSIS ACUAN GAMBAR PAPERIO */
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
-                      
-                      {/* ===== KOLOM 1 (KIRI - 3 COLS): ARTIKEL SEKUNDER + RETRO AD ===== */}
-                      <div className="lg:col-span-3 space-y-6 lg:border-r lg:border-[#1c1917] lg:pr-5">
-                        
-                        {/* ARTIKEL KIRI ATAS */}
-                        {leftTopStory && (
+                <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+                  
+                  {/* DAFTAR BERITA */}
+                  <div className="flex-1 space-y-6">
+                    {filteredBerita.length === 0 ? (
+                      <div className="border-2 border-[#1c1917] bg-[#F7F5EF] p-8 sm:p-12 text-center text-stone-600 font-editorial">
+                        <p className="text-xl font-bold font-newspaper text-[#171513] mb-1">
+                          Belum ada berita kegiatan yang diterbitkan.
+                        </p>
+                        <p className="text-xs sm:text-sm">
+                          {searchQuery ? `Tidak ditemukan berita dengan kata kunci "${searchQuery}".` : 'Berita kegiatan resmi akan diterbitkan oleh prajuru melalui panel admin.'}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                        {filteredBerita.map((item) => (
                           <article 
-                            onClick={() => { setSelectedBerita(leftTopStory); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                            className="group cursor-pointer border border-[#1c1917] p-3 bg-[#FAF8F3] newspaper-shadow-hover flex flex-col justify-between"
+                            key={item.id}
+                            onClick={() => { setSelectedBerita(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                            className="bg-[#FAF8F3] border border-[#1c1917] shadow-sm hover:shadow-lg transition duration-300 overflow-hidden cursor-pointer group flex flex-col justify-between h-full p-4 space-y-3 newspaper-shadow-hover"
                           >
-                            <div className="space-y-2">
-                              <h3 className="text-base sm:text-lg font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug">
-                                {leftTopStory.judul}
-                              </h3>
-
-                              <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#D5CFC2] pb-1.5">
-                                <span>{leftTopStory.kategori || 'Kegiatan'} • {formatDate(leftTopStory.created_at)}</span>
-                                <span className="text-[#E05A36] text-xs font-bold">↗</span>
-                              </div>
-
-                              {leftTopStory.gambar_url && (
-                                <div className="w-full h-36 overflow-hidden border border-[#1c1917] bg-stone-100 my-2">
+                            <div>
+                              {item.gambar_url && (
+                                <div className="w-full h-48 md:h-52 overflow-hidden bg-stone-100 mb-3 border border-[#1c1917]">
                                   <img 
-                                    src={leftTopStory.gambar_url} 
-                                    alt={leftTopStory.judul} 
+                                    src={item.gambar_url} 
+                                    alt={item.judul} 
+                                    loading="lazy"
+                                    decoding="async"
                                     className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
                                   />
                                 </div>
                               )}
 
-                              <p className="text-stone-700 font-editorial text-xs leading-relaxed line-clamp-3">
-                                {leftTopStory.isi_berita}
+                              <h4 className="text-base font-extrabold font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug mb-2 line-clamp-2">
+                                {item.judul}
+                              </h4>
+
+                              <div className="flex items-center gap-2 text-[11px] text-stone-600 font-semibold mb-2 font-ui">
+                                <span>📁 Kegiatan STT</span>
+                                <span>|</span>
+                                <span>👤 Media dan Informasi</span>
+                              </div>
+
+                              <p className="text-stone-700 font-editorial text-xs leading-relaxed line-clamp-3 mb-3">
+                                {item.isi_berita} [...]
                               </p>
                             </div>
-                          </article>
-                        )}
 
-                        {/* ARTIKEL KIRI BAWAH */}
-                        {leftBottomStory && (
-                          <article 
-                            onClick={() => { setSelectedBerita(leftBottomStory); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                            className="group cursor-pointer border border-[#1c1917] p-3 bg-[#FAF8F3] newspaper-shadow-hover"
-                          >
-                            <h4 className="text-sm sm:text-base font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug">
-                              {leftBottomStory.judul}
-                            </h4>
-                            <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#D5CFC2] pb-1 my-1.5">
-                              <span>{leftBottomStory.kategori || 'Warta'} • {formatDate(leftBottomStory.created_at)}</span>
-                              <span className="text-[#E05A36] text-xs font-bold">↗</span>
+                            <div className="flex items-center justify-between text-[11px] text-stone-500 border-t border-[#D5CFC2] pt-2 mt-auto font-ui">
+                              <span>📅 {formatDate(item.created_at)}</span>
+                              <span className="text-[#E05A36] font-bold group-hover:underline">Baca Selengkapnya &rarr;</span>
                             </div>
-                            {leftBottomStory.gambar_url && (
-                              <div className="w-full h-32 overflow-hidden border border-[#1c1917] bg-stone-100 my-2">
-                                <img src={leftBottomStory.gambar_url} alt="" className="w-full h-full object-cover" />
-                              </div>
-                            )}
-                            <p className="text-stone-700 font-editorial text-xs leading-relaxed line-clamp-2">
-                              {leftBottomStory.isi_berita}
-                            </p>
                           </article>
-                        )}
-
-                        {/* RETRO MAKLUMAT ORGANISASI (PERSIS COMPOSER NEEDED DI GAMBAR) */}
-                        <div className="border-2 border-[#1c1917] p-3.5 bg-[#F2EDE2] space-y-2 relative">
-                          <div className="border-b border-[#1c1917] pb-1.5 flex items-center justify-between">
-                            <span className="font-black text-xs uppercase tracking-wider text-[#1c1917] font-ui flex items-center gap-1">
-                              <span>🏛️</span> Maklumat Sanggar Buana
-                            </span>
-                            <span className="text-[9px] font-bold bg-[#E05A36] text-white px-1.5 py-0.2 rounded font-ui uppercase">
-                              Resmi
-                            </span>
-                          </div>
-                          <p className="text-[11px] font-editorial italic text-stone-700">
-                            Wadah Kebersamaan & Pelestarian Tradisi:
-                          </p>
-                          <ul className="text-[10px] font-ui text-stone-800 space-y-1 list-decimal list-inside font-medium">
-                            <li>Terbuka bagi seluruh truna-truni banjar</li>
-                            <li>Menjunjung nilai Tri Hita Karana & Adat</li>
-                            <li>Melatih kesenian tari, tabuh, dan kepemudaan</li>
-                            <li>Sekretariat: Wantilan Balai Banjar</li>
-                          </ul>
-                        </div>
-
+                        ))}
                       </div>
+                    )}
+                  </div>
 
-                      {/* ===== KOLOM 2 (TENGAH - 6 COLS): LEAD STORY RAKSASA & FEATURE BAWAH ===== */}
-                      <div className="lg:col-span-6 space-y-6">
-                        
-                        {/* HEADLINE UTAMA RAKSASA (PERSIS CATASTROPHIC ERUPTION DI GAMBAR ACUAN) */}
-                        {leadHeadline && (
-                          <article 
-                            onClick={() => { setSelectedBerita(leadHeadline); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                            className="group cursor-pointer border border-[#1c1917] p-3.5 sm:p-4 bg-[#FAF8F3] newspaper-shadow-hover space-y-3"
-                          >
-                            <div className="space-y-1">
-                              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-tight">
-                                {leadHeadline.judul}
-                              </h2>
-
-                              <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#1c1917] pb-2 pt-1">
-                                <span>{leadHeadline.kategori || 'Warta Utama'} • {leadHeadline.penulis || 'Redaksi'} • {formatDate(leadHeadline.created_at)}</span>
-                                <span className="text-[#E05A36] text-sm font-bold">↗</span>
-                              </div>
-                            </div>
-
-                            {leadHeadline.gambar_url && (
-                              <div className="border border-[#1c1917] overflow-hidden bg-stone-100">
-                                <div className="w-full aspect-[16/10] overflow-hidden">
-                                  <img 
-                                    src={leadHeadline.gambar_url} 
-                                    alt={leadHeadline.judul} 
-                                    className="w-full h-full object-cover group-hover:scale-102 transition duration-500" 
-                                  />
-                                </div>
-                              </div>
-                            )}
-
-                            <div className="text-stone-800 font-editorial text-sm sm:text-base leading-relaxed dropcap">
-                              {leadHeadline.isi_berita}
-                            </div>
-
-                            <div className="flex items-center justify-between text-xs font-bold font-ui text-[#1c1917] pt-2 border-t border-[#EAE5DB]">
-                              <span className="text-[#E05A36] group-hover:underline">
-                                Baca Berita Lengkap &rarr;
-                              </span>
-                              <span className="text-stone-400 font-press text-[10px]">
-                                EDISI UTAMA
-                              </span>
-                            </div>
-                          </article>
-                        )}
-
-                        {/* FEATURE ARTIKEL TENGAH BAWAH */}
-                        {centerBottomStory && (
-                          <article 
-                            onClick={() => { setSelectedBerita(centerBottomStory); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                            className="group cursor-pointer border border-[#1c1917] p-3.5 bg-[#FAF8F3] newspaper-shadow-hover space-y-3"
-                          >
-                            <div>
-                              <h3 className="text-xl sm:text-2xl font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug">
-                                {centerBottomStory.judul}
-                              </h3>
-                              <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#D5CFC2] pb-1.5 mt-1">
-                                <span>{centerBottomStory.kategori || 'Kegiatan'} • {formatDate(centerBottomStory.created_at)}</span>
-                                <span className="text-[#E05A36] font-bold">↗</span>
-                              </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
-                              {centerBottomStory.gambar_url && (
-                                <div className="h-44 overflow-hidden border border-[#1c1917] bg-stone-100">
-                                  <img src={centerBottomStory.gambar_url} alt="" className="w-full h-full object-cover" />
-                                </div>
-                              )}
-                              <p className="text-stone-700 font-editorial text-xs leading-relaxed line-clamp-6">
-                                {centerBottomStory.isi_berita}
-                              </p>
-                            </div>
-                          </article>
-                        )}
-
-                        {/* JIKA ADA BERITA TAMBAHAN LAINNYA */}
-                        {restStories.length > 0 && (
-                          <div className="pt-2 border-t border-[#1c1917] space-y-3">
-                            <h4 className="text-xs font-black uppercase tracking-widest text-[#1c1917] font-ui border-b border-[#1c1917] pb-1">
-                              Warta Tambahan Lainnya
-                            </h4>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                              {restStories.map((item) => (
-                                <div 
-                                  key={item.id}
-                                  onClick={() => { setSelectedBerita(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                  className="p-2.5 border border-[#1c1917] bg-[#FAF8F3] group cursor-pointer hover:border-[#E05A36]"
-                                >
-                                  <h5 className="font-bold font-newspaper text-sm line-clamp-2 group-hover:text-[#E05A36]">
-                                    {item.judul}
-                                  </h5>
-                                  <p className="text-[10px] font-ui text-stone-500 mt-1">
-                                    {formatDate(item.created_at)}
-                                  </p>
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-
+                  {/* SIDEBAR PERSIS FORMAT AWAL */}
+                  <aside className="w-full lg:w-80 space-y-6 shrink-0 lg:border-l lg:border-[#1c1917] lg:pl-8">
+                    {/* Kotak Cari */}
+                    <div className="space-y-2">
+                      <div className="flex border border-[#1c1917] bg-[#FAF8F3]">
+                        <input 
+                          type="text" 
+                          placeholder="Search ..." 
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                          className="w-full p-2.5 text-xs text-[#171513] bg-transparent focus:outline-none"
+                        />
+                        <button className="bg-[#171513] text-[#FAF8F3] px-4 text-xs font-bold hover:bg-[#E05A36] transition cursor-pointer">
+                          🔍
+                        </button>
                       </div>
-
-                      {/* ===== KOLOM 3 (KANAN - 3 COLS): POPULAR ARTICLE NOW & RETRO BOX ===== */}
-                      <div className="lg:col-span-3 space-y-6 lg:border-l lg:border-[#1c1917] lg:pl-5">
-                        
-                        {/* POPULAR ARTICLE NOW DENGAN NOMOR BROADSHEET 01, 02, 03 (PERSIS DI GAMBAR) */}
-                        <div className="border border-[#1c1917] p-3.5 bg-[#F7F5EF] space-y-3">
-                          <div className="flex items-center justify-between border-b border-[#1c1917] pb-2">
-                            <h4 className="font-black font-newspaper text-base text-[#1c1917] tracking-tight">
-                              Popular Article Now
-                            </h4>
-                            <span className="bg-[#E05A36] text-white text-[9px] font-bold font-ui px-2 py-0.5 rounded-full uppercase tracking-wider">
-                              {berita.length} Berita
-                            </span>
-                          </div>
-
-                          {berita.length === 0 ? (
-                            <p className="text-xs font-editorial italic text-stone-500 py-3 text-center">
-                              Belum ada warta terbit.
-                            </p>
-                          ) : (
-                            <div className="divide-y divide-[#D5CFC2]">
-                              {berita.slice(0, 5).map((pop, idx) => (
-                                <div 
-                                  key={pop.id}
-                                  onClick={() => { setSelectedBerita(pop); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                  className="py-2.5 group cursor-pointer flex items-start gap-2.5 transition"
-                                >
-                                  {/* Nomor 01, 02, 03... */}
-                                  <span className="text-xl sm:text-2xl font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] leading-none shrink-0 w-7">
-                                    {String(idx + 1).padStart(2, '0')}
-                                  </span>
-                                  <div className="space-y-0.5">
-                                    <h5 className="text-xs font-bold font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug line-clamp-2">
-                                      {pop.judul}
-                                    </h5>
-                                    <p className="text-[10px] font-ui text-[#78716C]">
-                                      {formatDate(pop.created_at)}
-                                    </p>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
-
-                        {/* RETRO KOTAK MAKLUMAT RESMI PEMUDA */}
-                        <div className="border-2 border-[#1c1917] p-3.5 bg-[#F4EDE1] space-y-2.5 relative">
-                          <div className="border-b border-[#1c1917] pb-1.5 text-center">
-                            <h4 className="text-base font-black font-masthead text-[#1c1917] leading-tight">
-                              Seka Truna Truni
-                            </h4>
-                            <p className="text-[10px] font-press text-[#78716C] uppercase mt-0.5">
-                              Sanggar Buana Denpasar
-                            </p>
-                          </div>
-
-                          <ul className="text-[10px] font-ui text-stone-800 space-y-1 list-decimal list-inside font-medium">
-                            <li>Menjaga kesucian adat & tradisi Bali</li>
-                            <li>Menggalang gotong royong krama muda</li>
-                            <li>Kreativitas seni ogoh-ogoh & tari</li>
-                            <li>Wadah musyawarah pemuda banjar</li>
-                          </ul>
-
-                          <div className="border-t border-[#1c1917] pt-1.5 text-center">
-                            <span className="text-[10px] font-bold text-[#E05A36] font-ui uppercase tracking-wider">
-                              "Sagopo Satya, Nangun Dharma Karya"
-                            </span>
-                          </div>
-                        </div>
-
-                        {/* KOTAK KONTAK / SEKRETARIAT */}
-                        <div className="border border-dashed border-[#1c1917] p-3 bg-[#FAF8F3] space-y-1.5 text-xs font-ui">
-                          <span className="font-bold text-[#1c1917] uppercase tracking-wider text-[10px] block border-b border-[#EAE5DB] pb-1">
-                            📍 Sekretariat STT Dharma Karya
-                          </span>
-                          <p className="text-stone-600 text-[11px] font-editorial leading-relaxed">
-                            Banjar Sanggar Buana, Denpasar - Bali.<br />
-                            Instagram & TikTok: <b>@sttdharmakarya17</b>
-                          </p>
-                        </div>
-
-                      </div>
-
                     </div>
-                  )}
+
+                    {/* Postingan Terbaru */}
+                    <div className="space-y-3 border border-[#1c1917] p-4 bg-[#F7F5EF]">
+                      <h3 className="text-xs font-black font-ui text-[#171513] border-l-4 border-[#171513] pl-2 uppercase tracking-widest">
+                        Postingan Terbaru
+                      </h3>
+                      {berita.length === 0 ? (
+                        <p className="text-xs font-editorial italic text-stone-500">Belum ada postingan terbaru.</p>
+                      ) : (
+                        <ul className="space-y-2 text-xs text-stone-800 font-bold font-newspaper">
+                          {berita.slice(0, 5).map((b) => (
+                            <li 
+                              key={b.id} 
+                              onClick={() => { setSelectedBerita(b); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                              className="hover:text-[#E05A36] cursor-pointer border-b border-[#D5CFC2] pb-1.5 transition line-clamp-2"
+                            >
+                              📑 {b.judul}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    {/* Arsip */}
+                    <div className="space-y-3 border border-[#1c1917] p-4 bg-[#F7F5EF]">
+                      <h3 className="text-xs font-black font-ui text-[#171513] border-l-4 border-[#171513] pl-2 uppercase tracking-widest">
+                        Arsip
+                      </h3>
+                      <ul className="space-y-2 text-xs text-stone-700 font-semibold font-ui">
+                        <li className="flex justify-between items-center hover:text-[#E05A36] cursor-pointer border-b border-[#D5CFC2] pb-1">
+                          <span>📅 {new Date().toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}</span>
+                          <span className="text-stone-500">({berita.length})</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </aside>
 
                 </div>
               )}
 
-              {/* SECTION: PROFIL & SEJARAH (SESUAI DENGAN FORMAT AWAL) */}
+              {/* SECTION: PROFIL & SEJARAH (PERSIS KONTEN RESMI AWAL DENGAN VISI MISI LENGKAP) */}
               {activeSection === 'profil' && (
-                <div className="border border-[#1c1917] bg-[#FAF8F3] p-6 sm:p-10 md:p-12 space-y-8 max-w-5xl mx-auto">
+                <div className="border border-[#1c1917] bg-[#FAF8F3] p-6 sm:p-10 md:p-12 space-y-8 max-w-5xl mx-auto shadow-sm">
                   <div>
                     <span className="text-[#E05A36] font-bold text-xs uppercase tracking-widest font-ui">
                       Tentang Organisasi
                     </span>
-                    <h2 className="text-2xl sm:text-4xl font-black font-newspaper text-[#171513] mt-1 mb-2">
+                    <h2 className="text-3xl font-black font-newspaper text-[#171513] mt-1 mb-2">
                       Sejarah STT Dharma Karya
                     </h2>
-                    <div className="w-20 h-1 bg-[#1c1917] mb-6"></div>
-                    <p className="text-stone-800 font-editorial leading-relaxed whitespace-pre-line text-sm md:text-base">
-                      {profil.sejarah || 'Sejarah belum dikonfigurasi oleh prajuru.'}
+                    <div className="w-20 h-1.5 bg-[#171513] mb-6"></div>
+                    <p className="text-stone-800 font-editorial leading-relaxed whitespace-pre-line text-sm md:text-base dropcap">
+                      {sejarahContent}
                     </p>
                   </div>
 
@@ -707,8 +528,8 @@ function HomePublic() {
                       <h3 className="font-black text-[#171513] text-xl font-masthead border-b border-[#1c1917] pb-1.5">
                         Visi
                       </h3>
-                      <p className="text-xs md:text-sm text-stone-700 font-editorial leading-relaxed whitespace-pre-line">
-                        {profil.visi || 'Visi belum diisi.'}
+                      <p className="text-xs md:text-sm text-stone-800 font-editorial leading-relaxed whitespace-pre-line">
+                        {visiContent}
                       </p>
                     </div>
 
@@ -716,15 +537,15 @@ function HomePublic() {
                       <h3 className="font-black text-[#171513] text-xl font-masthead border-b border-[#1c1917] pb-1.5">
                         Misi
                       </h3>
-                      <p className="text-xs md:text-sm text-stone-700 font-editorial leading-relaxed whitespace-pre-line">
-                        {profil.misi || 'Misi belum diisi.'}
+                      <p className="text-xs md:text-sm text-stone-800 font-editorial leading-relaxed whitespace-pre-line">
+                        {misiContent}
                       </p>
                     </div>
                   </div>
 
                   <div className="pt-8 border-t border-[#D5CFC2] flex flex-col md:flex-row items-center gap-8">
                     {/* Logo Bulat di Halaman Profil */}
-                    <div className="w-36 h-36 md:w-44 md:h-44 rounded-full bg-[#1c1917] p-1 border-4 border-[#1c1917] shadow-xl shrink-0 flex items-center justify-center overflow-hidden">
+                    <div className="w-40 h-40 rounded-full bg-[#1c1917] p-1.5 border-4 border-[#1c1917] shadow-xl shrink-0 flex items-center justify-center overflow-hidden">
                       <img 
                         src={displayLogo} 
                         alt="Logo STT" 
@@ -740,70 +561,72 @@ function HomePublic() {
                         Filosofi & Makna Logo
                       </h3>
                       <p className="text-stone-700 font-editorial text-sm leading-relaxed whitespace-pre-line">
-                        {profil.makna_logo || 'Makna logo belum diisi.'}
+                        {maknaLogoContent}
                       </p>
                     </div>
                   </div>
                 </div>
               )}
 
-              {/* SECTION: PRESIDIUM / PRAJURU */}
+              {/* SECTION: PRESIDIUM INTI (PERSIS STRUKTUR AWAL) */}
               {activeSection === 'presidium' && (
-                <div className="space-y-8 max-w-5xl mx-auto">
-                  <div className="border-b-2 border-[#1c1917] pb-3 text-center">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E05A36] font-ui">
-                      DEWAN PRAJURU RESMI
-                    </span>
-                    <h2 className="text-3xl sm:text-5xl font-black font-newspaper text-[#171513] mt-1 mb-1">
+                <div className="space-y-10 max-w-5xl mx-auto">
+                  <div className="border-b-2 border-[#1c1917] pb-4 text-center">
+                    <h2 className="text-3xl md:text-4xl font-black font-newspaper text-[#171513] mt-2">
                       Struktur Kepengurusan STT
                     </h2>
-                    <p className="text-xs font-editorial text-stone-600 italic">
-                      Dharma Karya Sanggar Buana — Periode Bakti Aktif
+                    <p className="text-xs text-stone-600 font-bold uppercase tracking-wider mt-1 font-ui">
+                      Dharma Karya Sanggar Buana
                     </p>
                   </div>
 
                   {presidium.length === 0 ? (
-                    <div className="bg-[#FAF8F3] p-12 text-center text-stone-500 border border-dashed border-[#171513] font-editorial">
-                      Data prajuru belum diinputkan oleh pengurus.
+                    <div className="border border-[#1c1917] bg-[#FAF8F3] p-12 text-center text-stone-500 font-editorial">
+                      Data prajuru inti belum diinputkan.
                     </div>
                   ) : (
-                    <div className="space-y-8">
+                    <div className="space-y-10">
+                      
+                      {/* KETUA STT */}
                       {ketua && (
                         <div className="flex flex-col items-center">
-                          <div className="bg-[#FAF8F3] p-3.5 border-2 border-[#171513] text-center w-64 sm:w-72 relative newspaper-shadow-hover">
-                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#171513] text-[#FAF8F3] font-bold text-[9px] font-ui px-3 py-0.5 uppercase tracking-widest border border-[#171513]">
+                          <div className="bg-[#FAF8F3] p-4 border-2 border-[#171513] shadow-md text-center w-72 relative newspaper-shadow-hover">
+                            <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#171513] text-[#FAF8F3] font-black text-[10px] px-4 py-1 uppercase tracking-widest font-ui border border-[#171513]">
                               Pimpinan Utama
                             </div>
-                            <div className="w-full aspect-[4/5] overflow-hidden bg-stone-200 border border-[#171513] mb-2.5 mt-1">
+
+                            <div className="w-full aspect-[4/5] overflow-hidden bg-stone-900 border border-[#1c1917] mb-3 mt-1">
                               <img src={ketua.foto_url} alt={ketua.nama} className="w-full h-full object-cover" />
                             </div>
-                            <h3 className="font-bold font-newspaper text-[#171513] text-base leading-tight">
+
+                            <h3 className="font-black text-stone-900 text-lg leading-tight font-newspaper">
                               {ketua.nama}
                             </h3>
-                            <p className="text-[11px] text-[#E05A36] font-bold font-ui uppercase tracking-wider mt-1 border-t border-[#D5CFC2] pt-1">
+                            <p className="text-xs text-[#E05A36] font-black uppercase tracking-wider mt-1.5 bg-[#FAF8F3] border border-[#1c1917] px-3 py-1 font-ui">
                               {ketua.jabatan}
                             </p>
                           </div>
                         </div>
                       )}
 
+                      {/* PENGURUS HARIAN INTI (WAKIL, SEKRETARIS, BENDAHARA) */}
                       {pengurusInti3.length > 0 && (
-                        <div className="space-y-3">
-                          <div className="border-b border-[#1c1917] pb-1 text-center">
-                            <span className="text-[10px] font-bold font-ui uppercase tracking-widest text-[#171513]">
-                              PENGURUS HARIAN INTI
+                        <div className="space-y-4">
+                          <div className="text-center">
+                            <span className="text-[10px] font-black bg-[#171513] text-[#FAF8F3] px-4 py-1 uppercase tracking-widest font-ui border border-[#1c1917]">
+                              Pengurus Harian Inti
                             </span>
                           </div>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {pengurusInti3.map((p) => (
-                              <div key={p.id} className="bg-[#FAF8F3] p-3 border border-[#171513] text-center flex flex-col newspaper-shadow-hover">
-                                <div className="w-full aspect-[4/5] overflow-hidden bg-stone-200 border border-[#171513] mb-2">
+                              <div key={p.id} className="bg-[#FAF8F3] p-4 border border-[#1c1917] shadow-sm text-center flex flex-col newspaper-shadow-hover">
+                                <div className="w-full aspect-[4/5] overflow-hidden bg-stone-900 border border-[#1c1917] mb-3">
                                   <img src={p.foto_url} alt={p.nama} className="w-full h-full object-cover" />
                                 </div>
-                                <h4 className="font-bold font-newspaper text-[#171513] text-sm">
+                                <h3 className="font-extrabold text-stone-900 text-base font-newspaper">
                                   {p.nama}
-                                </h4>
-                                <p className="text-[10px] text-[#E05A36] font-bold font-ui uppercase tracking-wider mt-1 border-t border-[#EAE5DB] pt-1">
+                                </h3>
+                                <p className="text-[11px] text-[#E05A36] font-extrabold uppercase tracking-wider mt-1.5 border border-[#1c1917] px-3 py-1 font-ui">
                                   {p.jabatan}
                                 </p>
                               </div>
@@ -812,23 +635,24 @@ function HomePublic() {
                         </div>
                       )}
 
+                      {/* ANGGOTA / SEKSI */}
                       {anggotaLainnya.length > 0 && (
-                        <div className="space-y-3 pt-4 border-t-2 border-[#1c1917]">
-                          <div className="border-b border-[#1c1917] pb-1 text-center">
-                            <span className="text-[10px] font-bold font-ui uppercase tracking-widest text-[#78716C]">
-                              KOORDINATOR SEKSI & ANGGOTA PRAJURU
+                        <div className="space-y-4 pt-6 border-t-2 border-[#1c1917]">
+                          <div className="text-center">
+                            <span className="text-[10px] font-extrabold bg-[#F4F1EA] text-stone-800 px-4 py-1 uppercase tracking-widest font-ui border border-[#1c1917]">
+                              Seksi & Anggota Prajuru
                             </span>
                           </div>
-                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {anggotaLainnya.map((p) => (
-                              <div key={p.id} className="bg-[#FAF8F3] p-2 border border-[#D5CFC2] text-center flex flex-col hover:border-[#171513] transition">
-                                <div className="w-full aspect-square overflow-hidden bg-stone-100 border border-[#D5CFC2] mb-1.5">
+                              <div key={p.id} className="bg-[#FAF8F3] p-3 border border-[#D5CFC2] text-center flex flex-col hover:border-[#1c1917] transition">
+                                <div className="w-full aspect-square overflow-hidden bg-stone-100 border border-[#D5CFC2] mb-2">
                                   <img src={p.foto_url} alt={p.nama} className="w-full h-full object-cover" />
                                 </div>
-                                <h5 className="font-bold font-newspaper text-[#171513] text-xs truncate">
+                                <h3 className="font-bold text-stone-800 text-sm font-newspaper truncate">
                                   {p.nama}
-                                </h5>
-                                <p className="text-[9px] text-stone-600 font-ui font-semibold uppercase mt-0.5 truncate">
+                                </h3>
+                                <p className="text-[10px] text-stone-600 font-extrabold uppercase tracking-wider mt-1 font-ui truncate">
                                   {p.jabatan}
                                 </p>
                               </div>
@@ -836,58 +660,48 @@ function HomePublic() {
                           </div>
                         </div>
                       )}
+
                     </div>
                   )}
                 </div>
               )}
 
-              {/* SECTION: GALERI FOTO */}
+              {/* SECTION: GALERI (PERSIS FORMAT AWAL) */}
               {activeSection === 'galeri' && (
-                <div className="space-y-4">
-                  <div className="border-b-2 border-[#1c1917] pb-2 flex flex-wrap items-end justify-between gap-1.5">
-                    <div>
-                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E05A36] font-ui">
-                        LEMBARAN DOKUMENTASI VISUAL
-                      </span>
-                      <h2 className="text-2xl sm:text-4xl font-black font-newspaper text-[#171513]">
-                        Galeri Arsip Kegiatan
-                      </h2>
-                    </div>
-                    <span className="text-xs font-editorial italic text-stone-500">
-                      Klik foto untuk resolusi penuh
-                    </span>
+                <div className="space-y-6">
+                  <div className="border-b-2 border-[#1c1917] pb-3">
+                    <h2 className="text-2xl sm:text-3xl font-black font-newspaper text-[#171513]">
+                      Galeri Foto Kegiatan
+                    </h2>
+                    <p className="text-xs text-stone-600 mt-1 font-editorial">
+                      Kumpulan dokumentasi foto kepemudaan Sanggar Buana
+                    </p>
                   </div>
 
                   {galeri.length === 0 ? (
-                    <div className="bg-[#FAF8F3] p-12 text-center text-stone-500 border border-dashed border-[#171513] font-editorial">
-                      Belum ada foto galeri yang terunggah.
+                    <div className="border border-[#1c1917] bg-[#FAF8F3] p-12 text-center text-stone-500 font-editorial">
+                      Belum ada foto galeri terunggah.
                     </div>
                   ) : (
-                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                      {galeri.map((g, idx) => (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {galeri.map((g) => (
                         <div 
                           key={g.id} 
-                          onClick={() => setPreviewImage({ url: g.gambar_url, title: g.judul || 'Dokumentasi' })}
-                          className="bg-[#FAF8F3] p-1.5 border border-[#171513] newspaper-shadow-hover transition group cursor-pointer"
+                          onClick={() => setPreviewImage({ url: g.gambar_url, title: g.judul || 'Foto Dokumentasi' })}
+                          className="bg-[#FAF8F3] p-2 border border-[#1c1917] shadow-sm overflow-hidden group cursor-pointer newspaper-shadow-hover"
                         >
-                          <div className="aspect-square overflow-hidden bg-stone-100 border border-[#D5CFC2] relative">
+                          <div className="h-40 overflow-hidden bg-stone-100 border border-[#D5CFC2]">
                             <img 
                               src={g.gambar_url} 
-                              alt={g.judul || 'Dokumentasi'} 
+                              alt={g.judul || 'Foto'} 
+                              loading="lazy" 
+                              decoding="async" 
                               className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
                             />
-                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-ui font-bold">
-                              🔍 Perbesar
-                            </div>
                           </div>
-                          <div className="pt-1.5 px-1">
-                            <span className="text-[8px] font-press text-[#78716C] uppercase block">
-                              ARSIP #{String(idx + 1).padStart(2, '0')}
-                            </span>
-                            <p className="text-[11px] font-bold font-newspaper text-[#171513] truncate mt-0.5">
-                              {g.judul || 'Foto Kegiatan'}
-                            </p>
-                          </div>
+                          <p className="text-xs font-bold text-stone-800 text-center truncate px-2 py-2 font-newspaper">
+                            {g.judul}
+                          </p>
                         </div>
                       ))}
                     </div>
@@ -900,40 +714,59 @@ function HomePublic() {
 
         </main>
 
-        {/* 5. GIANT NEWSPAPER FOOTER (PERSIS PAPERIO NEWS PADA GAMBAR ACUAN) */}
-        <footer className="border-t-2 border-[#1c1917] bg-[#EFECE5] pt-6 sm:pt-10 pb-6 px-4 sm:px-8">
-          
-          <div className="text-center pb-6 border-b border-[#1c1917]">
-            <p className="text-xs text-stone-500 uppercase tracking-widest font-ui mb-1">
-              We're Located At
-            </p>
-            <p className="text-xs font-editorial text-stone-700">
-              Banjar Sanggar Buana, Denpasar - Bali, Indonesia • Kontak: (0361) 420-9421
-            </p>
+        {/* 5. FOOTER RESMI STT DHARMA KARYA (PERSIS FORMAT & IDENTITAS ASLI) */}
+        <footer className="border-t-2 border-[#1c1917] bg-[#EFECE5] py-8 sm:py-10 px-4 sm:px-8">
+          <div className="max-w-7xl mx-auto flex flex-col items-center text-center space-y-4">
             
-            {/* Judul Raksasa Surat Kabar di Footer */}
-            <h2 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black font-newspaper text-[#171513] tracking-tighter uppercase select-none opacity-90 leading-none mt-4">
-              Paperio News
-            </h2>
-          </div>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-[#1c1917] p-0.5 border-2 border-[#1c1917] shadow flex items-center justify-center overflow-hidden">
+                <img 
+                  src={displayLogo} 
+                  alt="Logo Footer" 
+                  className="w-full h-full object-cover" 
+                  onError={(e) => { e.target.onerror = null; e.target.src = logoStt; }}
+                />
+              </div>
+              <span className="font-black text-[#171513] text-lg sm:text-xl tracking-wider font-newspaper">
+                STT DHARMA KARYA
+              </span>
+            </div>
 
-          <div className="pt-4 flex flex-col sm:flex-row items-center justify-between text-xs font-ui text-[#57524A] gap-3">
-            <span>© 2026 STT DHARMA KARYA SANGGAR BUANA. ALL RIGHTS RESERVED.</span>
-            <div className="flex flex-wrap gap-4 font-bold">
-              <span className="hover:text-[#171513] cursor-pointer" onClick={() => handleNavClick('beranda')}>Beranda</span>
-              <span>•</span>
-              <span className="hover:text-[#171513] cursor-pointer" onClick={() => handleNavClick('profil')}>Profil</span>
-              <span>•</span>
-              <span className="hover:text-[#171513] cursor-pointer" onClick={() => handleNavClick('presidium')}>Prajuru</span>
-              <span>•</span>
-              <span className="hover:text-[#171513] cursor-pointer" onClick={() => handleNavClick('galeri')}>Galeri</span>
-              <span>•</span>
-              <a href="https://www.instagram.com/sttdharmakarya17" target="_blank" rel="noreferrer" className="text-[#E05A36] hover:underline">
-                Instagram ↗
+            <p className="text-xs sm:text-sm text-stone-700 max-w-md leading-relaxed font-editorial italic">
+              Sanggar Buana — Melestarikan Seni, Menjaga Budaya, dan Mempererat Persaudaraan Sekaa Truna Truni.
+            </p>
+
+            <div className="w-24 h-0.5 bg-[#1c1917] my-2"></div>
+
+            {/* Media Sosial Asli */}
+            <div className="flex flex-wrap justify-center gap-3">
+              <a
+                href="https://www.instagram.com/sttdharmakarya17?stkn=MTJiZnRqandqcmFzeg=="
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram STT Dharma Karya"
+                title="Instagram STT Dharma Karya"
+                className="flex items-center gap-1.5 px-3 py-1.5 border border-[#1c1917] rounded text-xs font-bold text-[#171513] hover:bg-[#171513] hover:text-[#FAF8F3] transition font-ui"
+              >
+                <span>📸 Instagram</span>
+              </a>
+              <a
+                href="https://www.tiktok.com/@sttdharmakarya17?_r=1&_t=ZS-99a0QfPUzwL"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="TikTok STT Dharma Karya"
+                title="TikTok STT Dharma Karya"
+                className="flex items-center gap-1.5 px-3 py-1.5 border border-[#1c1917] rounded text-xs font-bold text-[#171513] hover:bg-[#171513] hover:text-[#FAF8F3] transition font-ui"
+              >
+                <span>🎵 TikTok</span>
               </a>
             </div>
-          </div>
 
+            <p className="text-[11px] font-bold text-stone-600 tracking-widest uppercase font-ui pt-2">
+              © 2026 Media & Informasi STT Dharma Karya
+            </p>
+
+          </div>
         </footer>
 
       </div>
@@ -962,7 +795,7 @@ function AdminLogin({ setIsAuthenticated }) {
   return (
     <div className="min-h-screen bg-[#EDE7DF] flex items-center justify-center p-4 font-ui">
       <form onSubmit={handleLogin} className="bg-[#FAF8F3] p-6 sm:p-8 md:p-10 border-2 border-[#171513] shadow-2xl max-w-md w-full space-y-5">
-        <div className="text-center space-y-2 border-b-2 border-[#171513] pb-5">
+        <div className="text-center space-y-2 border-b-2 border-[#1c1917] pb-5">
           <div className="w-16 h-16 mx-auto rounded-full bg-[#171513] p-1 border-2 border-[#171513] shadow-md flex items-center justify-center overflow-hidden">
             <img src={logoStt} alt="Logo" className="w-full h-full object-cover scale-105" />
           </div>
