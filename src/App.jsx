@@ -686,63 +686,61 @@ function HomePublic() {
                 </div>
               )}
 
-              {/* SECTION: PROFIL & SEJARAH */}
+              {/* SECTION: PROFIL & SEJARAH (SESUAI DENGAN FORMAT AWAL) */}
               {activeSection === 'profil' && (
-                <div className="space-y-6 max-w-5xl mx-auto">
-                  <div className="border-b-2 border-[#1c1917] pb-3 text-center">
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#E05A36] font-ui">
-                      EDISI KHUSUS HISTORIS
+                <div className="border border-[#1c1917] bg-[#FAF8F3] p-6 sm:p-10 md:p-12 space-y-8 max-w-5xl mx-auto">
+                  <div>
+                    <span className="text-[#E05A36] font-bold text-xs uppercase tracking-widest font-ui">
+                      Tentang Organisasi
                     </span>
-                    <h2 className="text-3xl sm:text-5xl font-black font-newspaper text-[#171513] mt-1 mb-1">
-                      Rekam Jejak & Profil Organisasi
+                    <h2 className="text-2xl sm:text-4xl font-black font-newspaper text-[#171513] mt-1 mb-2">
+                      Sejarah STT Dharma Karya
                     </h2>
-                    <p className="text-xs font-editorial text-stone-600 italic">
-                      Sekaa Truna Truni Dharma Karya — Sanggar Buana, Bali
+                    <div className="w-20 h-1 bg-[#1c1917] mb-6"></div>
+                    <p className="text-stone-800 font-editorial leading-relaxed whitespace-pre-line text-sm md:text-base">
+                      {profil.sejarah || 'Sejarah belum dikonfigurasi oleh prajuru.'}
                     </p>
                   </div>
 
-                  <div className="border border-[#1c1917] p-4 sm:p-6 bg-[#FAF8F3] space-y-3">
-                    <h3 className="text-xl font-bold font-newspaper text-[#171513] border-b border-[#1c1917] pb-2">
-                      Sejarah Pendirian
-                    </h3>
-                    <div className="text-stone-800 font-editorial text-sm sm:text-base leading-relaxed whitespace-pre-line dropcap">
-                      {profil.sejarah || 'Sejarah belum dikonfigurasi oleh prajuru melalui panel admin.'}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="border-2 border-[#1c1917] p-4 bg-[#F8F6F0] space-y-2">
-                      <h4 className="text-lg font-black font-masthead text-[#171513] border-b border-[#1c1917] pb-1">
-                        Visi Organisasi
-                      </h4>
-                      <p className="text-stone-800 font-editorial text-xs sm:text-sm leading-relaxed whitespace-pre-line">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                    <div className="border border-[#1c1917] bg-[#F8F6F0] p-6 space-y-2.5">
+                      <h3 className="font-black text-[#171513] text-xl font-masthead border-b border-[#1c1917] pb-1.5">
+                        Visi
+                      </h3>
+                      <p className="text-xs md:text-sm text-stone-700 font-editorial leading-relaxed whitespace-pre-line">
                         {profil.visi || 'Visi belum diisi.'}
                       </p>
                     </div>
 
-                    <div className="border-2 border-[#1c1917] p-4 bg-[#F8F6F0] space-y-2">
-                      <h4 className="text-lg font-black font-masthead text-[#171513] border-b border-[#1c1917] pb-1">
-                        Misi Organisasi
-                      </h4>
-                      <p className="text-stone-800 font-editorial text-xs sm:text-sm leading-relaxed whitespace-pre-line">
+                    <div className="border border-[#1c1917] bg-[#F8F6F0] p-6 space-y-2.5">
+                      <h3 className="font-black text-[#171513] text-xl font-masthead border-b border-[#1c1917] pb-1.5">
+                        Misi
+                      </h3>
+                      <p className="text-xs md:text-sm text-stone-700 font-editorial leading-relaxed whitespace-pre-line">
                         {profil.misi || 'Misi belum diisi.'}
                       </p>
                     </div>
                   </div>
 
-                  <div className="border border-[#1c1917] p-4 sm:p-6 bg-[#F3EFE7] flex flex-col md:flex-row items-center gap-6">
-                    <div className="w-32 h-32 rounded-full bg-[#171513] p-1 border-4 border-[#171513] shadow-md flex items-center justify-center overflow-hidden shrink-0">
-                      <img src={displayLogo} alt="Logo STT" className="w-full h-full object-cover scale-105" />
+                  <div className="pt-8 border-t border-[#D5CFC2] flex flex-col md:flex-row items-center gap-8">
+                    {/* Logo Bulat di Halaman Profil */}
+                    <div className="w-36 h-36 md:w-44 md:h-44 rounded-full bg-[#1c1917] p-1 border-4 border-[#1c1917] shadow-xl shrink-0 flex items-center justify-center overflow-hidden">
+                      <img 
+                        src={displayLogo} 
+                        alt="Logo STT" 
+                        className="w-full h-full object-cover scale-105" 
+                        onError={(e) => { e.target.onerror = null; e.target.src = logoStt; }}
+                      />
                     </div>
-                    <div className="space-y-1.5 flex-1 text-left">
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-[#E05A36] font-ui">
-                        Identitas Lambang Resmi
+                    <div className="space-y-2 text-left">
+                      <span className="text-[#E05A36] font-bold text-xs uppercase tracking-widest font-ui">
+                        Identitas Visual
                       </span>
-                      <h4 className="text-xl font-black font-newspaper text-[#171513]">
-                        Filosofi & Makna Lambang Adat
-                      </h4>
-                      <p className="text-stone-700 font-editorial text-xs sm:text-sm leading-relaxed whitespace-pre-line">
-                        {profil.makna_logo || 'Makna logo belum diisi oleh prajuru.'}
+                      <h3 className="font-black text-[#171513] text-2xl font-newspaper">
+                        Filosofi & Makna Logo
+                      </h3>
+                      <p className="text-stone-700 font-editorial text-sm leading-relaxed whitespace-pre-line">
+                        {profil.makna_logo || 'Makna logo belum diisi.'}
                       </p>
                     </div>
                   </div>
