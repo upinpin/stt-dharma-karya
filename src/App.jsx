@@ -7,117 +7,40 @@ import logoStt from './assets/logo.png';
 
 const SECRET_ADMIN_PATH = "/prajuru-stt-secret-2026";
 
-// DATA DEFAULT KURASI TINGGI (MEMASTIKAN TAMPILAN SELALU PENUH & MENAWAN SEPERTI GAMBAR ACUAN PAPERIO)
-const DEFAULT_BERITA = [
-  {
-    id: "berita-01",
-    judul: "Karya Agung Padudusan & Piodalan di Pura Banjar Sanggar Buana Berlangsung Khidmat",
-    isi_berita: "Ratusan krama banjar bersama sekaa truna truni tumpah ruah menggelar upacara yadnya agung dalam balutan busana adat keputihan. Semangat gotong royong tampak menyala dalam merangkai penjor, sarana upakara, hingga pementasan tari wali sakral yang dibawakan langsung oleh generasi muda Sanggar Buana.\n\nKetua STT menyampaikan bahwa keterlibatan aktif pemuda dalam upacara keagamaan merupakan wujud nyata bakti kepada leluhur sekaligus sarana edukasi pelestarian nilai-nilai Tri Hita Karana di era modernisasi.",
-    gambar_url: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=80",
-    kategori: "Adat & Yadnya",
-    penulis: "Wayan Sukadana",
-    created_at: new Date("2026-10-15")
-  },
-  {
-    id: "berita-02",
-    judul: "Karya Seni Ogoh-Ogoh Ramah Lingkungan STT Dharma Karya Pukau Ribuan Warga",
-    isi_berita: "Menghindari penggunaan bahan sintetis berbahaya, karya seni ogoh-ogoh tahun ini sepenuhnya mengandalkan rangka bambu petung, anyaman rotan, dan olahan bubur koran bekas berlapis arang alami. Inovasi ramah lingkungan ini membuktikan bahwa kreativitas pemuda tidak harus mengorbankan kelestarian alam Bali.",
-    gambar_url: "https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=800&q=80",
-    kategori: "Kesenian",
-    penulis: "Gede Arya",
-    created_at: new Date("2026-10-14")
-  },
-  {
-    id: "berita-03",
-    judul: "Pelestarian Seni Tari Tradisional: Truni Sanggar Buana Hidupkan Tari Rejang",
-    isi_berita: "Sekaa truni secara rutin melangsungkan latihan gerak tari sakral di wantilan banjar setiap akhir pekan. Kegiatan ini tidak hanya melatih kepekaan rasa dan keindahan gerak, namun juga menumbuhkan rasa persaudaraan yang erat di antara truni banjar.",
-    gambar_url: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=800&q=80",
-    kategori: "Tari Bali",
-    penulis: "Ni Kadek Ayu",
-    created_at: new Date("2026-10-12")
-  },
-  {
-    id: "berita-04",
-    judul: "Penemuan Lontar Bersejarah Buktikan Eksistensi Banjar Sejak Abad Ke-19",
-    isi_berita: "Kajian filologi bekerja sama dengan akademisi kebudayaan berhasil mengidentifikasi lembaran lontar kuno berhuruf Bali yang mengulas asal-usul persaudaraan pemuda di Sanggar Buana. Catatan tersebut menegaskan peran vital pemuda dalam menjaga kesucian mandala banjar sejak zaman kerajaan.",
-    gambar_url: "https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=1000&q=80",
-    kategori: "Arsip Sejarah",
-    penulis: "Putu Mahendra",
-    created_at: new Date("2026-10-10")
-  },
-  {
-    id: "berita-05",
-    judul: "Pementasan Tabuh Bleganjur Remaja Raih Juara Pertama Tingkat Kota Denpasar",
-    isi_berita: "Dengan tempo dinamis dan kekompakan pukulan cengceng yang bertenaga, sekaa gong remaja STT Dharma Karya sukses menorehkan prestasi membanggakan pada parade kesenian pemuda kota.",
-    gambar_url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80",
-    kategori: "Seni Tabuh",
-    penulis: "Made Sugiarta",
-    created_at: new Date("2026-10-08")
-  },
-  {
-    id: "berita-06",
-    judul: "Gotong Royong Massal & Penataan Area Suci Pura Jelang Hari Raya Suci Nyepi",
-    isi_berita: "Aksi bersih-bersih lingkungan yang melibatkan seluruh krama pemuda berhasil mengumpulkan sampah anorganik dan mempercantik taman pura banjar demi kenyamanan persembahyangan bersama.",
-    gambar_url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80",
-    kategori: "Gotong Royong",
-    penulis: "Ketut Wardana",
-    created_at: new Date("2026-10-05")
-  }
-];
-
-const DEFAULT_POPULAR = [
-  { id: "pop-01", rank: "01", judul: "Pementasan Tabuh Bleganjur Sekaa Remaja Sabet Juara Pertama", tgl: "15 Okt 2026", kat: "Prestasi Seni" },
-  { id: "pop-02", rank: "02", judul: "Aksi Bersih Sungai & Pemasangan Penjor Semarak Jelang Piodalan", tgl: "14 Okt 2026", kat: "Lingkungan" },
-  { id: "pop-03", rank: "03", judul: "Pelatihan Anyaman Janur & Klakat Tradisional Generasi Muda", tgl: "12 Okt 2026", kat: "Edukasi Adat" },
-  { id: "pop-04", rank: "04", judul: "Musyawarah Prajuru STT Tetapkan Anggaran & Program Kerja 2026", tgl: "10 Okt 2026", kat: "Organisasi" },
-  { id: "pop-05", rank: "05", judul: "Turnamen Futsal & Olahraga Persahabatan Pemuda Antar Banjar", tgl: "08 Okt 2026", kat: "Kepemudaan" },
-];
-
-const DEFAULT_PROFIL = {
-  sejarah: "Sekaa Truna Truni Dharma Karya Sanggar Buana didirikan atas dasar kebulatan tekad para pemuda banjar untuk mengabdikan diri kepada desa adat, menjaga kesucian yadnya, dan menjadi garda terdepan dalam merawat seni serta kebudayaan luhur Bali.\n\nDari generasi ke generasi, STT Dharma Karya telah menjadi wadah pembinaan mental, kepemimpinan, dan kreativitas, melahirkan insan-insan muda yang berbakti pada catur guru serta menjunjung tinggi persaudaraan banjar.",
-  visi: "Terwujudnya generasi muda Sekaa Truna Truni yang berkarakter satya, berwawasan luas, berakar kuat pada nilai-nilai tradisi Bali, serta mandiri dan inovatif dalam berkarya demi kemakmuran banjar.",
-  misi: "1. Menegakkan dharma dan nilai Tri Hita Karana dalam kehidupan bermasyarakat.\n2. Mengembangkan kreativitas seni tabuh, tari, dan kerajinan pemuda secara berkelanjutan.\n3. Mempererat tali persaudaraan antar truna truni melalui musyawarah mufakat dan gotong royong.",
-  makna_logo: "Lambang resmi Sekaa Truna Truni Dharma Karya melambangkan kebulatan tekad, kesucian niat, dan api semangat yang tak pernah padam. Simbol bunga padma merepresentasikan kesucian jiwa, sedangkan warna emas adalah keluhuran budi pekerti pemuda Sanggar Buana."
-};
-
-const DEFAULT_PRESIDIUM = [
-  { id: "p-01", nama: "I Wayan Arya Dharmawan", jabatan: "Ketua STT", foto_url: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80" },
-  { id: "p-02", nama: "I Made Surya Pratama", jabatan: "Wakil Ketua", foto_url: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80" },
-  { id: "p-03", nama: "Ni Komang Dewi Anjani", jabatan: "Sekretaris Umum", foto_url: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80" },
-  { id: "p-04", nama: "I Kadek Dwi Mahendra", jabatan: "Bendahara", foto_url: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80" },
-  { id: "p-05", nama: "I Gede Bagus Satria", jabatan: "Koordinator Seksi Kesenian", foto_url: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80" },
-  { id: "p-06", nama: "Ni Luh Putu Ratna", jabatan: "Koordinator Seksi Kerohanian", foto_url: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80" },
-  { id: "p-07", nama: "I Kadek Agus Wirawan", jabatan: "Koordinator Humas & Dokumentasi", foto_url: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=600&q=80" },
-  { id: "p-08", nama: "I Nyoman Aditya", jabatan: "Koordinator Pemuda & Olahraga", foto_url: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=600&q=80" }
-];
-
-const DEFAULT_GALERI = [
-  { id: "g-01", judul: "Pentas Tari Rejang Suci Odalan Pura", gambar_url: "https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=800&q=80" },
-  { id: "g-02", judul: "Proses Pembuatan Rangka Bambu Ogoh-Ogoh", gambar_url: "https://images.unsplash.com/photo-1555400038-63f5ba517a47?auto=format&fit=crop&w=800&q=80" },
-  { id: "g-03", judul: "Latihan Tabuh Gong Kebyar Remaja", gambar_url: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=800&q=80" },
-  { id: "g-04", judul: "Gotong Royong Pemasangan Penjor Banjar", gambar_url: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=800&q=80" },
-  { id: "g-05", judul: "Upacara Yadnya Bersama Krama Banjar", gambar_url: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=800&q=80" },
-  { id: "g-06", judul: "Dokumentasi Naskah & Pusaka Adat", gambar_url: "https://images.unsplash.com/photo-1596401057633-54a8fe8ef647?auto=format&fit=crop&w=800&q=80" },
-  { id: "g-07", judul: "Rapat Anggota & Musyawarah STT", gambar_url: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?auto=format&fit=crop&w=800&q=80" },
-  { id: "g-08", judul: "Pentas Seni Budaya Truna Truni", gambar_url: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=80" }
-];
-
 function HomePublic() {
   const [activeSection, setActiveSection] = useState('beranda');
-  const [profil, setProfil] = useState(DEFAULT_PROFIL);
-  const [presidium, setPresidium] = useState(DEFAULT_PRESIDIUM);
-  const [berita, setBerita] = useState(DEFAULT_BERITA);
-  const [galeri, setGaleri] = useState(DEFAULT_GALERI);
+  const [profil, setProfil] = useState({});
+  const [presidium, setPresidium] = useState([]);
+  const [berita, setBerita] = useState([]);
+  const [galeri, setGaleri] = useState([]);
   
   // State Filter & Detail
   const [selectedBerita, setSelectedBerita] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('Semua');
   const [previewImage, setPreviewImage] = useState(null);
   const [fontSizeLarge, setFontSizeLarge] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
-  // Sinkronisasi data Firestore (jika ada data dari Firebase, gabungkan)
+  // Jam Realtime WIB (Waktu Indonesia Barat)
+  const [currentTimeWIB, setCurrentTimeWIB] = useState('');
+
+  useEffect(() => {
+    const updateWIBClock = () => {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('id-ID', {
+        timeZone: 'Asia/Jakarta',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      }) + ' WIB';
+      setCurrentTimeWIB(timeStr);
+    };
+    updateWIBClock();
+    const timer = setInterval(updateWIBClock, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Fetch murni dari database Firestore (tanpa data buatan/mock)
   useEffect(() => {
     const loadAll = async () => {
       try {
@@ -128,20 +51,12 @@ function HomePublic() {
           getDocs(collection(db, "koleksi_galeri"))
         ]);
 
-        if (!pSnap.empty && Object.keys(pSnap.docs[0].data()).length > 0) {
-          setProfil(prev => ({ ...prev, ...pSnap.docs[0].data() }));
-        }
-        if (!prSnap.empty) {
-          setPresidium(prSnap.docs.map(d => ({ id: d.id, ...d.data() })));
-        }
-        if (!bSnap.empty) {
-          setBerita(bSnap.docs.map(d => ({ id: d.id, ...d.data() })));
-        }
-        if (!gSnap.empty) {
-          setGaleri(gSnap.docs.map(d => ({ id: d.id, ...d.data() })));
-        }
+        if (!pSnap.empty) setProfil(pSnap.docs[0].data());
+        setPresidium(prSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+        setBerita(bSnap.docs.map(d => ({ id: d.id, ...d.data() })));
+        setGaleri(gSnap.docs.map(d => ({ id: d.id, ...d.data() })));
       } catch (err) {
-        console.warn("Menggunakan data kurasi resmi STT:", err);
+        console.error("Gagal mengambil data dari Firestore:", err);
       }
     };
     loadAll();
@@ -154,13 +69,29 @@ function HomePublic() {
   };
 
   const formatDate = (dateObj) => {
-    if (!dateObj) return "16 Oktober 2026";
+    if (!dateObj) return "Tanggal Belum Diatur";
     try {
       const date = dateObj.toDate ? dateObj.toDate() : new Date(dateObj);
-      return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+      return date.toLocaleDateString('id-ID', { 
+        timeZone: 'Asia/Jakarta',
+        day: 'numeric', 
+        month: 'short', 
+        year: 'numeric' 
+      });
     } catch {
-      return "16 Oktober 2026";
+      return "Tanggal Belum Diatur";
     }
+  };
+
+  const getTodayFormatted = () => {
+    const today = new Date();
+    return today.toLocaleDateString('id-ID', {
+      timeZone: 'Asia/Jakarta',
+      weekday: 'long',
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
   };
 
   const showToast = (msg) => {
@@ -173,17 +104,13 @@ function HomePublic() {
     showToast('📋 Tautan lembaran berita disalin!');
   };
 
-  // Filter berita
-  const filteredBerita = berita.filter(b => {
-    const matchSearch = 
-      b.judul?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      b.isi_berita?.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    if (selectedCategory === 'Semua') return matchSearch;
-    return matchSearch && (b.kategori?.toLowerCase() === selectedCategory.toLowerCase());
-  });
+  // Filter berita berdasarkan query pencarian
+  const filteredBerita = berita.filter(b => 
+    b.judul?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    b.isi_berita?.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  // Presidium
+  // Hierarki Presidium Inti
   const ketua = presidium.find(p => p.jabatan?.toLowerCase().includes('ketua') && !p.jabatan?.toLowerCase().includes('wakil')) || presidium[0];
   const pengurusInti3 = presidium.filter(p => {
     const j = p.jabatan ? p.jabatan.toLowerCase() : '';
@@ -194,23 +121,24 @@ function HomePublic() {
   // Logo Utama
   const displayLogo = (profil.logo_url && profil.logo_url.trim().length > 5) ? profil.logo_url : logoStt;
 
-  // Grid Story Allocation (Persis seperti Paperio Reference Image)
-  const leadHeadline = filteredBerita[0] || DEFAULT_BERITA[0];
-  const leftTopStory = filteredBerita[1] || DEFAULT_BERITA[1];
-  const leftBottomStory = filteredBerita[2] || DEFAULT_BERITA[2];
-  const centerBottomStory = filteredBerita[3] || DEFAULT_BERITA[3];
+  // Alokasi Grid Berita Otomatis dari Database
+  const leadHeadline = filteredBerita[0] || null;
+  const leftTopStory = filteredBerita[1] || null;
+  const leftBottomStory = filteredBerita[2] || null;
+  const centerBottomStory = filteredBerita[3] || null;
+  const restStories = filteredBerita.slice(4);
 
   return (
     <div className="min-h-screen bg-[#EDE7DF] text-[#1A1817] selection:bg-[#E05A36] selection:text-white px-1 sm:px-3 md:px-6 py-2 sm:py-4">
       
-      {/* TOAST POPUP */}
+      {/* TOAST NOTIFIKASI */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 z-50 bg-[#171513] text-[#FAF8F3] px-4 py-2 rounded shadow-2xl border border-[#FAF8F3] font-ui text-xs font-bold animate-bounce">
           {toastMessage}
         </div>
       )}
 
-      {/* LIGHTBOX MODAL */}
+      {/* LIGHTBOX MODAL PREVIEW FOTO */}
       {previewImage && (
         <div 
           onClick={() => setPreviewImage(null)}
@@ -234,23 +162,25 @@ function HomePublic() {
             <div className="w-full max-h-[72vh] overflow-hidden bg-stone-900 border border-[#1c1917] flex items-center justify-center">
               <img 
                 src={previewImage.url} 
-                alt={previewImage.title} 
+                alt={previewImage.title || 'Foto'} 
                 className="max-h-[70vh] w-auto object-contain"
               />
             </div>
-            <p className="font-bold font-newspaper text-sm sm:text-base text-[#171513]">
-              {previewImage.title}
-            </p>
+            {previewImage.title && (
+              <p className="font-bold font-newspaper text-sm sm:text-base text-[#171513]">
+                {previewImage.title}
+              </p>
+            )}
           </div>
         </div>
       )}
 
-      {/* CONTAINER BROADSHEET UTAMA (KORAN PAPERIO STYLE) */}
+      {/* CONTAINER BROADSHEET UTAMA (PAPERIO KORAN STYLE) */}
       <div className="max-w-7xl mx-auto bg-[#FAF8F3] border-2 border-[#1c1917] shadow-2xl relative overflow-hidden">
         
-        {/* 1. TOP METADATA BAR (PERSIS SEPERTI GAMBAR ACUAN PAPERIO) */}
+        {/* 1. TOP METADATA BAR (TANGGAL & JAM REALTIME WIB) */}
         <div className="border-b border-[#1c1917] bg-[#F4F1EA] px-3 sm:px-6 py-2 flex items-center justify-between text-[11px] font-ui font-semibold text-[#5A554E]">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             <div className="w-5 h-5 rounded-full bg-[#1c1917] p-0.5 flex items-center justify-center overflow-hidden shrink-0">
               <img src={displayLogo} alt="Logo" className="w-full h-full object-cover" />
             </div>
@@ -258,26 +188,31 @@ function HomePublic() {
               STT DHARMA KARYA
             </span>
             <span className="text-[#A8A29E]">•</span>
-            <span>16 Okt, 2026</span>
-            <span className="hidden sm:inline text-[#A8A29E]">•</span>
-            <span className="hidden sm:inline">10:25 WITA</span>
+            <span>📅 {getTodayFormatted()}</span>
+            <span className="text-[#A8A29E]">•</span>
+            <span className="text-[#E05A36] font-mono font-bold flex items-center gap-1">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#E05A36] animate-pulse"></span>
+              ⏰ {currentTimeWIB || 'WIB'}
+            </span>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
             <span className="hidden md:inline text-[10px] text-stone-500 font-press uppercase">
-              Edisi No. 24 / Vol. VIII
+              Edisi Resmi Banjar
             </span>
             <div className="flex items-center gap-1 bg-[#FAF8F3] border border-[#1c1917] px-1.5 py-0.5 rounded text-[9px] font-bold">
               <span className="text-stone-500">Font:</span>
               <button 
                 onClick={() => setFontSizeLarge(false)}
-                className={`px-1 rounded ${!fontSizeLarge ? 'bg-[#1c1917] text-white' : 'hover:bg-stone-200'}`}
+                className={`px-1 rounded cursor-pointer ${!fontSizeLarge ? 'bg-[#1c1917] text-white' : 'hover:bg-stone-200'}`}
+                title="Ukuran Standar"
               >
                 A
               </button>
               <button 
                 onClick={() => setFontSizeLarge(true)}
-                className={`px-1 rounded ${fontSizeLarge ? 'bg-[#1c1917] text-white' : 'hover:bg-stone-200'}`}
+                className={`px-1 rounded cursor-pointer ${fontSizeLarge ? 'bg-[#1c1917] text-white' : 'hover:bg-stone-200'}`}
+                title="Ukuran Besar"
               >
                 A+
               </button>
@@ -285,11 +220,11 @@ function HomePublic() {
           </div>
         </div>
 
-        {/* 2. GRAND MASTHEAD (PERSIS "BREAKING NEWS PORTAL" PADA GAMBAR ACUAN) */}
+        {/* 2. GRAND MASTHEAD (PERSIS "BREAKING NEWS PORTAL" PADA GAMBAR ACUAN PAPERIO) */}
         <header className="border-b-2 border-[#1c1917] px-4 sm:px-8 py-5 sm:py-8 bg-[#FAF8F3]">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             
-            {/* Logo Kiri di Desktop */}
+            {/* Logo Kiri di Layar Desktop */}
             <div 
               onClick={() => handleNavClick('beranda')}
               className="hidden md:flex items-center gap-3 cursor-pointer group"
@@ -334,7 +269,7 @@ function HomePublic() {
           </div>
         </header>
 
-        {/* 3. NEWSPAPER CATEGORY STRIP (DENGAN PEMISAH GARIS VERTIKAL SEPERTI PAPERIO) */}
+        {/* 3. NEWSPAPER CATEGORY STRIP (DENGAN PEMISAH GARIS VERTIKAL PAPERIO) */}
         <nav className="border-b-2 border-[#1c1917] bg-[#EFECE5] flex items-stretch justify-between font-ui text-xs font-bold uppercase tracking-wider overflow-x-auto nav-scroll">
           <div className="flex items-stretch divide-x divide-[#1c1917] overflow-x-auto nav-scroll w-full md:w-auto">
             <div className="px-3 sm:px-4 py-2.5 bg-[#171513] text-[#FAF8F3] flex items-center gap-1.5 shrink-0 text-[11px] font-bold">
@@ -362,7 +297,7 @@ function HomePublic() {
             ))}
           </div>
 
-          {/* Kolom Pencarian */}
+          {/* Kolom Pencarian Cepat */}
           <div className="hidden md:flex items-center px-3 py-1.5 border-l border-[#1c1917] bg-[#F7F5EF]">
             <span className="text-stone-400 mr-2 text-xs">🔍</span>
             <input 
@@ -373,7 +308,7 @@ function HomePublic() {
               className="bg-transparent text-xs text-[#171513] placeholder-stone-500 focus:outline-none w-36 lg:w-44"
             />
             {searchQuery && (
-              <button onClick={() => setSearchQuery('')} className="text-xs text-stone-500 font-bold ml-1">✕</button>
+              <button onClick={() => setSearchQuery('')} className="text-xs text-stone-500 font-bold ml-1 cursor-pointer">✕</button>
             )}
           </div>
         </nav>
@@ -381,7 +316,7 @@ function HomePublic() {
         {/* 4. MAIN CONTENT AREA */}
         <main className={`p-3 sm:p-5 md:p-6 ${fontSizeLarge ? 'text-lg' : 'text-base'}`}>
 
-          {/* DETAIL BERITA (SAAT ARTIKEL DIBUKA) */}
+          {/* DETAIL BERITA (SAAT ARTIKEL DIKLIK) */}
           {selectedBerita ? (
             <div className="max-w-4xl mx-auto space-y-4 sm:space-y-6">
               <div className="flex items-center justify-between border-b border-[#1c1917] pb-2 sm:pb-3">
@@ -410,9 +345,9 @@ function HomePublic() {
               <article className="space-y-4 pt-1">
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#E05A36] font-ui">
-                    <span>{selectedBerita.kategori || 'Warta Khusus'}</span>
+                    <span>{selectedBerita.kategori || 'Warta Kegiatan'}</span>
                     <span>•</span>
-                    <span>{selectedBerita.penulis || 'Redaksi STT'}</span>
+                    <span>{selectedBerita.penulis || 'Media STT'}</span>
                     <span>•</span>
                     <span>{formatDate(selectedBerita.created_at)}</span>
                   </div>
@@ -456,255 +391,297 @@ function HomePublic() {
             </div>
           ) : (
             <>
-              {/* SECTION: BERANDA / KEGIATAN (PERSIS SEPERTI LAYOUT GRID DI GAMBAR PAPERIO) */}
+              {/* SECTION: BERANDA / KEGIATAN */}
               {(activeSection === 'beranda' || activeSection === 'kegiatan') && (
                 <div className="space-y-6">
 
-                  {/* KORAN BROADSHEET 3-KOLOM (EXACT MATCH PAPERIO REFERENCE IMAGE) */}
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
-                    
-                    {/* ===== KOLOM 1 (KIRI - 3 COLS): BERITA SEKUNDER + RETRO AD BOX ===== */}
-                    <div className="lg:col-span-3 space-y-6 lg:border-r lg:border-[#1c1917] lg:pr-5">
+                  {/* KONDISI SAAT BELUM ADA BERITA SAMA SEKALI DARI DATABASE */}
+                  {filteredBerita.length === 0 ? (
+                    <div className="border-2 border-[#1c1917] bg-[#F7F5EF] p-8 sm:p-14 text-center my-6 space-y-3 font-editorial">
+                      <span className="stamp-seal text-[9px]">LEMBARAN KORAN</span>
+                      <h3 className="text-2xl sm:text-3xl font-black font-newspaper text-[#171513] mt-2">
+                        Belum Ada Warta Berita yang Diterbitkan
+                      </h3>
+                      <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
+                        {searchQuery 
+                          ? `Tidak ditemukan berita yang cocok dengan kata kunci "${searchQuery}".` 
+                          : 'Warta kegiatan dan kabar resmi akan segera diterbitkan oleh pengurus STT Dharma Karya melalui portal admin.'}
+                      </p>
+                    </div>
+                  ) : (
+                    /* GRID 3-KOLOM PERSIS ACUAN GAMBAR PAPERIO */
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
                       
-                      {/* ARTIKEL KIRI ATAS (MIRIP PICASSO AUCTION PADA GAMBAR ACUAN) */}
-                      {leftTopStory && (
-                        <article 
-                          onClick={() => { setSelectedBerita(leftTopStory); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                          className="group cursor-pointer border border-[#1c1917] p-3 bg-[#FAF8F3] newspaper-shadow-hover flex flex-col justify-between"
-                        >
-                          <div className="space-y-2">
-                            <h3 className="text-base sm:text-lg font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug">
-                              {leftTopStory.judul}
-                            </h3>
+                      {/* ===== KOLOM 1 (KIRI - 3 COLS): ARTIKEL SEKUNDER + RETRO AD ===== */}
+                      <div className="lg:col-span-3 space-y-6 lg:border-r lg:border-[#1c1917] lg:pr-5">
+                        
+                        {/* ARTIKEL KIRI ATAS */}
+                        {leftTopStory && (
+                          <article 
+                            onClick={() => { setSelectedBerita(leftTopStory); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                            className="group cursor-pointer border border-[#1c1917] p-3 bg-[#FAF8F3] newspaper-shadow-hover flex flex-col justify-between"
+                          >
+                            <div className="space-y-2">
+                              <h3 className="text-base sm:text-lg font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug">
+                                {leftTopStory.judul}
+                              </h3>
 
-                            <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#D5CFC2] pb-1.5">
-                              <span>{leftTopStory.kategori || 'Seni'} • {formatDate(leftTopStory.created_at)}</span>
+                              <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#D5CFC2] pb-1.5">
+                                <span>{leftTopStory.kategori || 'Kegiatan'} • {formatDate(leftTopStory.created_at)}</span>
+                                <span className="text-[#E05A36] text-xs font-bold">↗</span>
+                              </div>
+
+                              {leftTopStory.gambar_url && (
+                                <div className="w-full h-36 overflow-hidden border border-[#1c1917] bg-stone-100 my-2">
+                                  <img 
+                                    src={leftTopStory.gambar_url} 
+                                    alt={leftTopStory.judul} 
+                                    className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                                  />
+                                </div>
+                              )}
+
+                              <p className="text-stone-700 font-editorial text-xs leading-relaxed line-clamp-3">
+                                {leftTopStory.isi_berita}
+                              </p>
+                            </div>
+                          </article>
+                        )}
+
+                        {/* ARTIKEL KIRI BAWAH */}
+                        {leftBottomStory && (
+                          <article 
+                            onClick={() => { setSelectedBerita(leftBottomStory); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                            className="group cursor-pointer border border-[#1c1917] p-3 bg-[#FAF8F3] newspaper-shadow-hover"
+                          >
+                            <h4 className="text-sm sm:text-base font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug">
+                              {leftBottomStory.judul}
+                            </h4>
+                            <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#D5CFC2] pb-1 my-1.5">
+                              <span>{leftBottomStory.kategori || 'Warta'} • {formatDate(leftBottomStory.created_at)}</span>
                               <span className="text-[#E05A36] text-xs font-bold">↗</span>
                             </div>
-
-                            {leftTopStory.gambar_url && (
-                              <div className="w-full h-36 overflow-hidden border border-[#171513] bg-stone-100 my-2">
-                                <img 
-                                  src={leftTopStory.gambar_url} 
-                                  alt={leftTopStory.judul} 
-                                  className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
-                                />
+                            {leftBottomStory.gambar_url && (
+                              <div className="w-full h-32 overflow-hidden border border-[#1c1917] bg-stone-100 my-2">
+                                <img src={leftBottomStory.gambar_url} alt="" className="w-full h-full object-cover" />
                               </div>
                             )}
-
-                            <p className="text-stone-700 font-editorial text-xs leading-relaxed line-clamp-3">
-                              {leftTopStory.isi_berita}
+                            <p className="text-stone-700 font-editorial text-xs leading-relaxed line-clamp-2">
+                              {leftBottomStory.isi_berita}
                             </p>
-                          </div>
-                        </article>
-                      )}
+                          </article>
+                        )}
 
-                      {/* ARTIKEL KIRI BAWAH (MIRIP BLACK FOX DISCOVERED PADA GAMBAR ACUAN) */}
-                      {leftBottomStory && (
-                        <article 
-                          onClick={() => { setSelectedBerita(leftBottomStory); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                          className="group cursor-pointer border border-[#1c1917] p-3 bg-[#FAF8F3] newspaper-shadow-hover"
-                        >
-                          <h4 className="text-sm sm:text-base font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug">
-                            {leftBottomStory.judul}
-                          </h4>
-                          <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#D5CFC2] pb-1 my-1.5">
-                            <span>{leftBottomStory.kategori || 'Budaya'} • {formatDate(leftBottomStory.created_at)}</span>
-                            <span className="text-[#E05A36] text-xs font-bold">↗</span>
+                        {/* RETRO MAKLUMAT ORGANISASI (PERSIS COMPOSER NEEDED DI GAMBAR) */}
+                        <div className="border-2 border-[#1c1917] p-3.5 bg-[#F2EDE2] space-y-2 relative">
+                          <div className="border-b border-[#1c1917] pb-1.5 flex items-center justify-between">
+                            <span className="font-black text-xs uppercase tracking-wider text-[#1c1917] font-ui flex items-center gap-1">
+                              <span>🏛️</span> Maklumat Sanggar Buana
+                            </span>
+                            <span className="text-[9px] font-bold bg-[#E05A36] text-white px-1.5 py-0.2 rounded font-ui uppercase">
+                              Resmi
+                            </span>
                           </div>
-                          {leftBottomStory.gambar_url && (
-                            <div className="w-full h-32 overflow-hidden border border-[#171513] bg-stone-100 my-2">
-                              <img src={leftBottomStory.gambar_url} alt="" className="w-full h-full object-cover" />
-                            </div>
-                          )}
-                          <p className="text-stone-700 font-editorial text-xs leading-relaxed line-clamp-2">
-                            {leftBottomStory.isi_berita}
+                          <p className="text-[11px] font-editorial italic text-stone-700">
+                            Wadah Kebersamaan & Pelestarian Tradisi:
                           </p>
-                        </article>
-                      )}
-
-                      {/* RETRO BANNER IKLAN/MAKLUMAT KIRI (MIRIP COMPOSER NEEDED NOW DI GAMBAR) */}
-                      <div className="border-2 border-[#1c1917] p-3.5 bg-[#F2EDE2] space-y-2 relative">
-                        <div className="border-b border-[#1c1917] pb-1.5 flex items-center justify-between">
-                          <span className="font-black text-xs uppercase tracking-wider text-[#1c1917] font-ui flex items-center gap-1">
-                            <span>🎵</span> Sekaa Tabuh STT
-                          </span>
-                          <span className="text-[9px] font-bold bg-[#E05A36] text-white px-1.5 py-0.2 rounded font-ui uppercase">
-                            Open
-                          </span>
+                          <ul className="text-[10px] font-ui text-stone-800 space-y-1 list-decimal list-inside font-medium">
+                            <li>Terbuka bagi seluruh truna-truni banjar</li>
+                            <li>Menjunjung nilai Tri Hita Karana & Adat</li>
+                            <li>Melatih kesenian tari, tabuh, dan kepemudaan</li>
+                            <li>Sekretariat: Wantilan Balai Banjar</li>
+                          </ul>
                         </div>
-                        <p className="text-[11px] font-editorial italic text-stone-700">
-                          Pendaftaran Sekaa Bleganjur & Tabuh Klasik Gong Kebyar:
-                        </p>
-                        <ul className="text-[10px] font-ui text-stone-800 space-y-1 list-decimal list-inside font-medium">
-                          <li>Pemuda/truna banjar usia 14-30 tahun</li>
-                          <li>Mempunyai komitmen ngayah di pura</li>
-                          <li>Latihan rutin setiap Jumat & Sabtu malam</li>
-                          <li>Tempat: Wantilan Balai Banjar</li>
-                        </ul>
+
                       </div>
 
-                    </div>
+                      {/* ===== KOLOM 2 (TENGAH - 6 COLS): LEAD STORY RAKSASA & FEATURE BAWAH ===== */}
+                      <div className="lg:col-span-6 space-y-6">
+                        
+                        {/* HEADLINE UTAMA RAKSASA (PERSIS CATASTROPHIC ERUPTION DI GAMBAR ACUAN) */}
+                        {leadHeadline && (
+                          <article 
+                            onClick={() => { setSelectedBerita(leadHeadline); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                            className="group cursor-pointer border border-[#1c1917] p-3.5 sm:p-4 bg-[#FAF8F3] newspaper-shadow-hover space-y-3"
+                          >
+                            <div className="space-y-1">
+                              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-tight">
+                                {leadHeadline.judul}
+                              </h2>
 
-                    {/* ===== KOLOM 2 (TENGAH - 6 COLS): HEADLINE RAKSASA & FEATURE STORY ===== */}
-                    <div className="lg:col-span-6 space-y-6">
-                      
-                      {/* HEADLINE UTAMA RAKSASA (MIRIP CATASTROPHIC VOLCANIC ERUPTION DI GAMBAR ACUAN) */}
-                      {leadHeadline && (
-                        <article 
-                          onClick={() => { setSelectedBerita(leadHeadline); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                          className="group cursor-pointer border border-[#1c1917] p-3.5 sm:p-4 bg-[#FAF8F3] newspaper-shadow-hover space-y-3"
-                        >
-                          <div className="space-y-1">
-                            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-tight">
-                              {leadHeadline.judul}
-                            </h2>
-
-                            <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#1c1917] pb-2 pt-1">
-                              <span>{leadHeadline.kategori || 'Warta Utama'} • {leadHeadline.penulis || 'Redaksi'} • {formatDate(leadHeadline.created_at)}</span>
-                              <span className="text-[#E05A36] text-sm font-bold">↗</span>
-                            </div>
-                          </div>
-
-                          {leadHeadline.gambar_url && (
-                            <div className="border border-[#1c1917] overflow-hidden bg-stone-100">
-                              <div className="w-full aspect-[16/10] overflow-hidden">
-                                <img 
-                                  src={leadHeadline.gambar_url} 
-                                  alt={leadHeadline.judul} 
-                                  className="w-full h-full object-cover group-hover:scale-102 transition duration-500" 
-                                />
+                              <div className="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#1c1917] pb-2 pt-1">
+                                <span>{leadHeadline.kategori || 'Warta Utama'} • {leadHeadline.penulis || 'Redaksi'} • {formatDate(leadHeadline.created_at)}</span>
+                                <span className="text-[#E05A36] text-sm font-bold">↗</span>
                               </div>
                             </div>
-                          )}
 
-                          <div className="text-stone-800 font-editorial text-sm sm:text-base leading-relaxed dropcap">
-                            {leadHeadline.isi_berita}
-                          </div>
-
-                          <div className="flex items-center justify-between text-xs font-bold font-ui text-[#1c1917] pt-2 border-t border-[#EAE5DB]">
-                            <span className="text-[#E05A36] group-hover:underline">
-                              Baca Berita Lengkap &rarr;
-                            </span>
-                            <span className="text-stone-400 font-press text-[10px]">
-                              EDISI UTAMA
-                            </span>
-                          </div>
-                        </article>
-                      )}
-
-                      {/* FEATURE ARTIKEL TENGAH BAWAH (MIRIP ARTIKEL TOMB IN EGYPT DI GAMBAR ACUAN) */}
-                      {centerBottomStory && (
-                        <article 
-                          onClick={() => { setSelectedBerita(centerBottomStory); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                          className="group cursor-pointer border border-[#1c1917] p-3.5 bg-[#FAF8F3] newspaper-shadow-hover space-y-3"
-                        >
-                          <div>
-                            <h3 className="text-xl sm:text-2xl font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug">
-                              {centerBottomStory.judul}
-                            </h3>
-                            <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#D5CFC2] pb-1.5 mt-1">
-                              <span>{centerBottomStory.kategori || 'Sejarah'} • {formatDate(centerBottomStory.created_at)}</span>
-                              <span className="text-[#E05A36] font-bold">↗</span>
-                            </div>
-                          </div>
-
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
-                            {centerBottomStory.gambar_url && (
-                              <div className="h-44 overflow-hidden border border-[#1c1917] bg-stone-100">
-                                <img src={centerBottomStory.gambar_url} alt="" className="w-full h-full object-cover" />
+                            {leadHeadline.gambar_url && (
+                              <div className="border border-[#1c1917] overflow-hidden bg-stone-100">
+                                <div className="w-full aspect-[16/10] overflow-hidden">
+                                  <img 
+                                    src={leadHeadline.gambar_url} 
+                                    alt={leadHeadline.judul} 
+                                    className="w-full h-full object-cover group-hover:scale-102 transition duration-500" 
+                                  />
+                                </div>
                               </div>
                             )}
-                            <p className="text-stone-700 font-editorial text-xs leading-relaxed line-clamp-6">
-                              {centerBottomStory.isi_berita}
-                            </p>
-                          </div>
-                        </article>
-                      )}
 
-                    </div>
+                            <div className="text-stone-800 font-editorial text-sm sm:text-base leading-relaxed dropcap">
+                              {leadHeadline.isi_berita}
+                            </div>
 
-                    {/* ===== KOLOM 3 (KANAN - 3 COLS): POPULAR ARTICLE NOW & RETRO RECRUITMENT ===== */}
-                    <div className="lg:col-span-3 space-y-6 lg:border-l lg:border-[#1c1917] lg:pl-5">
-                      
-                      {/* POPULAR ARTICLE NOW (PERSIS DENGAN NOMOR 01, 02, 03 SEPERTI DI GAMBAR ACUAN) */}
-                      <div className="border border-[#1c1917] p-3.5 bg-[#F7F5EF] space-y-3">
-                        <div className="flex items-center justify-between border-b border-[#1c1917] pb-2">
-                          <h4 className="font-black font-newspaper text-base text-[#1c1917] tracking-tight">
-                            Popular Article Now
-                          </h4>
-                          <span className="bg-[#E05A36] text-white text-[9px] font-bold font-ui px-2 py-0.5 rounded-full uppercase tracking-wider">
-                            20 New
-                          </span>
-                        </div>
-
-                        <div className="divide-y divide-[#D5CFC2]">
-                          {DEFAULT_POPULAR.map((pop) => (
-                            <div 
-                              key={pop.id}
-                              onClick={() => { 
-                                const matched = berita.find(b => b.judul.includes(pop.judul.slice(0, 10))) || berita[0];
-                                setSelectedBerita(matched); 
-                                window.scrollTo({ top: 0, behavior: 'smooth' }); 
-                              }}
-                              className="py-2.5 group cursor-pointer flex items-start gap-2.5 transition"
-                            >
-                              {/* Nomor 01, 02, 03... */}
-                              <span className="text-xl sm:text-2xl font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] leading-none shrink-0 w-7">
-                                {pop.rank}
+                            <div className="flex items-center justify-between text-xs font-bold font-ui text-[#1c1917] pt-2 border-t border-[#EAE5DB]">
+                              <span className="text-[#E05A36] group-hover:underline">
+                                Baca Berita Lengkap &rarr;
                               </span>
-                              <div className="space-y-0.5">
-                                <h5 className="text-xs font-bold font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug line-clamp-2">
-                                  {pop.judul}
-                                </h5>
-                                <p className="text-[10px] font-ui text-[#78716C]">
-                                  {pop.tgl} • {pop.kat}
-                                </p>
+                              <span className="text-stone-400 font-press text-[10px]">
+                                EDISI UTAMA
+                              </span>
+                            </div>
+                          </article>
+                        )}
+
+                        {/* FEATURE ARTIKEL TENGAH BAWAH */}
+                        {centerBottomStory && (
+                          <article 
+                            onClick={() => { setSelectedBerita(centerBottomStory); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                            className="group cursor-pointer border border-[#1c1917] p-3.5 bg-[#FAF8F3] newspaper-shadow-hover space-y-3"
+                          >
+                            <div>
+                              <h3 className="text-xl sm:text-2xl font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug">
+                                {centerBottomStory.judul}
+                              </h3>
+                              <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#78716C] font-ui border-b border-[#D5CFC2] pb-1.5 mt-1">
+                                <span>{centerBottomStory.kategori || 'Kegiatan'} • {formatDate(centerBottomStory.created_at)}</span>
+                                <span className="text-[#E05A36] font-bold">↗</span>
                               </div>
                             </div>
-                          ))}
-                        </div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 items-center">
+                              {centerBottomStory.gambar_url && (
+                                <div className="h-44 overflow-hidden border border-[#1c1917] bg-stone-100">
+                                  <img src={centerBottomStory.gambar_url} alt="" className="w-full h-full object-cover" />
+                                </div>
+                              )}
+                              <p className="text-stone-700 font-editorial text-xs leading-relaxed line-clamp-6">
+                                {centerBottomStory.isi_berita}
+                              </p>
+                            </div>
+                          </article>
+                        )}
+
+                        {/* JIKA ADA BERITA TAMBAHAN LAINNYA */}
+                        {restStories.length > 0 && (
+                          <div className="pt-2 border-t border-[#1c1917] space-y-3">
+                            <h4 className="text-xs font-black uppercase tracking-widest text-[#1c1917] font-ui border-b border-[#1c1917] pb-1">
+                              Warta Tambahan Lainnya
+                            </h4>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              {restStories.map((item) => (
+                                <div 
+                                  key={item.id}
+                                  onClick={() => { setSelectedBerita(item); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                  className="p-2.5 border border-[#1c1917] bg-[#FAF8F3] group cursor-pointer hover:border-[#E05A36]"
+                                >
+                                  <h5 className="font-bold font-newspaper text-sm line-clamp-2 group-hover:text-[#E05A36]">
+                                    {item.judul}
+                                  </h5>
+                                  <p className="text-[10px] font-ui text-stone-500 mt-1">
+                                    {formatDate(item.created_at)}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
                       </div>
 
-                      {/* RETRO JOB/RECRUITMENT BANNER (MIRIP "PEOPLE THAT CAN DESIGN" DI GAMBAR ACUAN) */}
-                      <div className="border-2 border-[#1c1917] p-3.5 bg-[#F4EDE1] space-y-2.5 relative">
-                        <div className="border-b border-[#1c1917] pb-1.5 text-center">
-                          <h4 className="text-base font-black font-masthead text-[#1c1917] leading-tight">
-                            People That Can Design
-                          </h4>
-                          <p className="text-[10px] font-press text-[#78716C] uppercase mt-0.5">
-                            Open For Designer Now !
+                      {/* ===== KOLOM 3 (KANAN - 3 COLS): POPULAR ARTICLE NOW & RETRO BOX ===== */}
+                      <div className="lg:col-span-3 space-y-6 lg:border-l lg:border-[#1c1917] lg:pl-5">
+                        
+                        {/* POPULAR ARTICLE NOW DENGAN NOMOR BROADSHEET 01, 02, 03 (PERSIS DI GAMBAR) */}
+                        <div className="border border-[#1c1917] p-3.5 bg-[#F7F5EF] space-y-3">
+                          <div className="flex items-center justify-between border-b border-[#1c1917] pb-2">
+                            <h4 className="font-black font-newspaper text-base text-[#1c1917] tracking-tight">
+                              Popular Article Now
+                            </h4>
+                            <span className="bg-[#E05A36] text-white text-[9px] font-bold font-ui px-2 py-0.5 rounded-full uppercase tracking-wider">
+                              {berita.length} Berita
+                            </span>
+                          </div>
+
+                          {berita.length === 0 ? (
+                            <p className="text-xs font-editorial italic text-stone-500 py-3 text-center">
+                              Belum ada warta terbit.
+                            </p>
+                          ) : (
+                            <div className="divide-y divide-[#D5CFC2]">
+                              {berita.slice(0, 5).map((pop, idx) => (
+                                <div 
+                                  key={pop.id}
+                                  onClick={() => { setSelectedBerita(pop); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+                                  className="py-2.5 group cursor-pointer flex items-start gap-2.5 transition"
+                                >
+                                  {/* Nomor 01, 02, 03... */}
+                                  <span className="text-xl sm:text-2xl font-black font-newspaper text-[#171513] group-hover:text-[#E05A36] leading-none shrink-0 w-7">
+                                    {String(idx + 1).padStart(2, '0')}
+                                  </span>
+                                  <div className="space-y-0.5">
+                                    <h5 className="text-xs font-bold font-newspaper text-[#171513] group-hover:text-[#E05A36] transition leading-snug line-clamp-2">
+                                      {pop.judul}
+                                    </h5>
+                                    <p className="text-[10px] font-ui text-[#78716C]">
+                                      {formatDate(pop.created_at)}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* RETRO KOTAK MAKLUMAT RESMI PEMUDA */}
+                        <div className="border-2 border-[#1c1917] p-3.5 bg-[#F4EDE1] space-y-2.5 relative">
+                          <div className="border-b border-[#1c1917] pb-1.5 text-center">
+                            <h4 className="text-base font-black font-masthead text-[#1c1917] leading-tight">
+                              Seka Truna Truni
+                            </h4>
+                            <p className="text-[10px] font-press text-[#78716C] uppercase mt-0.5">
+                              Sanggar Buana Denpasar
+                            </p>
+                          </div>
+
+                          <ul className="text-[10px] font-ui text-stone-800 space-y-1 list-decimal list-inside font-medium">
+                            <li>Menjaga kesucian adat & tradisi Bali</li>
+                            <li>Menggalang gotong royong krama muda</li>
+                            <li>Kreativitas seni ogoh-ogoh & tari</li>
+                            <li>Wadah musyawarah pemuda banjar</li>
+                          </ul>
+
+                          <div className="border-t border-[#1c1917] pt-1.5 text-center">
+                            <span className="text-[10px] font-bold text-[#E05A36] font-ui uppercase tracking-wider">
+                              "Sagopo Satya, Nangun Dharma Karya"
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* KOTAK KONTAK / SEKRETARIAT */}
+                        <div className="border border-dashed border-[#1c1917] p-3 bg-[#FAF8F3] space-y-1.5 text-xs font-ui">
+                          <span className="font-bold text-[#1c1917] uppercase tracking-wider text-[10px] block border-b border-[#EAE5DB] pb-1">
+                            📍 Sekretariat STT Dharma Karya
+                          </span>
+                          <p className="text-stone-600 text-[11px] font-editorial leading-relaxed">
+                            Banjar Sanggar Buana, Denpasar - Bali.<br />
+                            Instagram & TikTok: <b>@sttdharmakarya17</b>
                           </p>
                         </div>
 
-                        <ul className="text-[10px] font-ui text-stone-800 space-y-1 list-decimal list-inside font-medium">
-                          <li>Truna/truni usia 15 - 30 tahun</li>
-                          <li>Mempunyai selera desain & seni rupa</li>
-                          <li>Pengalaman merancang sketsa ogoh-ogoh</li>
-                          <li>Dapat bergabung dalam tim workshop banjar</li>
-                        </ul>
-
-                        <div className="border-t border-[#1c1917] pt-1.5 text-center">
-                          <span className="text-[10px] font-bold text-[#E05A36] font-ui uppercase tracking-wider">
-                            Hubungi Prajuru Sanggar Buana
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* KOTAK KONTAK / SEKRETARIAT */}
-                      <div className="border border-dashed border-[#1c1917] p-3 bg-[#FAF8F3] space-y-1.5 text-xs font-ui">
-                        <span className="font-bold text-[#1c1917] uppercase tracking-wider text-[10px] block border-b border-[#EAE5DB] pb-1">
-                          📍 Sekretariat STT Dharma Karya
-                        </span>
-                        <p className="text-stone-600 text-[11px] font-editorial leading-relaxed">
-                          Banjar Sanggar Buana, Denpasar - Bali.<br />
-                          Instagram & TikTok: <b>@sttdharmakarya17</b>
-                        </p>
                       </div>
 
                     </div>
-
-                  </div>
+                  )}
 
                 </div>
               )}
@@ -729,7 +706,7 @@ function HomePublic() {
                       Sejarah Pendirian
                     </h3>
                     <div className="text-stone-800 font-editorial text-sm sm:text-base leading-relaxed whitespace-pre-line dropcap">
-                      {profil.sejarah}
+                      {profil.sejarah || 'Sejarah belum dikonfigurasi oleh prajuru melalui panel admin.'}
                     </div>
                   </div>
 
@@ -739,7 +716,7 @@ function HomePublic() {
                         Visi Organisasi
                       </h4>
                       <p className="text-stone-800 font-editorial text-xs sm:text-sm leading-relaxed whitespace-pre-line">
-                        {profil.visi}
+                        {profil.visi || 'Visi belum diisi.'}
                       </p>
                     </div>
 
@@ -748,7 +725,7 @@ function HomePublic() {
                         Misi Organisasi
                       </h4>
                       <p className="text-stone-800 font-editorial text-xs sm:text-sm leading-relaxed whitespace-pre-line">
-                        {profil.misi}
+                        {profil.misi || 'Misi belum diisi.'}
                       </p>
                     </div>
                   </div>
@@ -765,7 +742,7 @@ function HomePublic() {
                         Filosofi & Makna Lambang Adat
                       </h4>
                       <p className="text-stone-700 font-editorial text-xs sm:text-sm leading-relaxed whitespace-pre-line">
-                        {profil.makna_logo}
+                        {profil.makna_logo || 'Makna logo belum diisi oleh prajuru.'}
                       </p>
                     </div>
                   </div>
@@ -787,72 +764,80 @@ function HomePublic() {
                     </p>
                   </div>
 
-                  {ketua && (
-                    <div className="flex flex-col items-center">
-                      <div className="bg-[#FAF8F3] p-3.5 border-2 border-[#171513] text-center w-64 sm:w-72 relative newspaper-shadow-hover">
-                        <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#171513] text-[#FAF8F3] font-bold text-[9px] font-ui px-3 py-0.5 uppercase tracking-widest border border-[#171513]">
-                          Pimpinan Utama
-                        </div>
-                        <div className="w-full aspect-[4/5] overflow-hidden bg-stone-200 border border-[#171513] mb-2.5 mt-1">
-                          <img src={ketua.foto_url} alt={ketua.nama} className="w-full h-full object-cover" />
-                        </div>
-                        <h3 className="font-bold font-newspaper text-[#171513] text-base leading-tight">
-                          {ketua.nama}
-                        </h3>
-                        <p className="text-[11px] text-[#E05A36] font-bold font-ui uppercase tracking-wider mt-1 border-t border-[#D5CFC2] pt-1">
-                          {ketua.jabatan}
-                        </p>
-                      </div>
+                  {presidium.length === 0 ? (
+                    <div className="bg-[#FAF8F3] p-12 text-center text-stone-500 border border-dashed border-[#171513] font-editorial">
+                      Data prajuru belum diinputkan oleh pengurus.
                     </div>
-                  )}
-
-                  {pengurusInti3.length > 0 && (
-                    <div className="space-y-3">
-                      <div className="border-b border-[#1c1917] pb-1 text-center">
-                        <span className="text-[10px] font-bold font-ui uppercase tracking-widest text-[#171513]">
-                          PENGURUS HARIAN INTI
-                        </span>
-                      </div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        {pengurusInti3.map((p) => (
-                          <div key={p.id} className="bg-[#FAF8F3] p-3 border border-[#171513] text-center flex flex-col newspaper-shadow-hover">
-                            <div className="w-full aspect-[4/5] overflow-hidden bg-stone-200 border border-[#171513] mb-2">
-                              <img src={p.foto_url} alt={p.nama} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className="space-y-8">
+                      {ketua && (
+                        <div className="flex flex-col items-center">
+                          <div className="bg-[#FAF8F3] p-3.5 border-2 border-[#171513] text-center w-64 sm:w-72 relative newspaper-shadow-hover">
+                            <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#171513] text-[#FAF8F3] font-bold text-[9px] font-ui px-3 py-0.5 uppercase tracking-widest border border-[#171513]">
+                              Pimpinan Utama
                             </div>
-                            <h4 className="font-bold font-newspaper text-[#171513] text-sm">
-                              {p.nama}
-                            </h4>
-                            <p className="text-[10px] text-[#E05A36] font-bold font-ui uppercase tracking-wider mt-1 border-t border-[#EAE5DB] pt-1">
-                              {p.jabatan}
+                            <div className="w-full aspect-[4/5] overflow-hidden bg-stone-200 border border-[#171513] mb-2.5 mt-1">
+                              <img src={ketua.foto_url} alt={ketua.nama} className="w-full h-full object-cover" />
+                            </div>
+                            <h3 className="font-bold font-newspaper text-[#171513] text-base leading-tight">
+                              {ketua.nama}
+                            </h3>
+                            <p className="text-[11px] text-[#E05A36] font-bold font-ui uppercase tracking-wider mt-1 border-t border-[#D5CFC2] pt-1">
+                              {ketua.jabatan}
                             </p>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
+                        </div>
+                      )}
 
-                  {anggotaLainnya.length > 0 && (
-                    <div className="space-y-3 pt-4 border-t-2 border-[#1c1917]">
-                      <div className="border-b border-[#1c1917] pb-1 text-center">
-                        <span className="text-[10px] font-bold font-ui uppercase tracking-widest text-[#78716C]">
-                          KOORDINATOR SEKSI & ANGGOTA PRAJURU
-                        </span>
-                      </div>
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                        {anggotaLainnya.map((p) => (
-                          <div key={p.id} className="bg-[#FAF8F3] p-2 border border-[#D5CFC2] text-center flex flex-col hover:border-[#171513] transition">
-                            <div className="w-full aspect-square overflow-hidden bg-stone-100 border border-[#D5CFC2] mb-1.5">
-                              <img src={p.foto_url} alt={p.nama} className="w-full h-full object-cover" />
-                            </div>
-                            <h5 className="font-bold font-newspaper text-[#171513] text-xs truncate">
-                              {p.nama}
-                            </h5>
-                            <p className="text-[9px] text-stone-600 font-ui font-semibold uppercase mt-0.5 truncate">
-                              {p.jabatan}
-                            </p>
+                      {pengurusInti3.length > 0 && (
+                        <div className="space-y-3">
+                          <div className="border-b border-[#1c1917] pb-1 text-center">
+                            <span className="text-[10px] font-bold font-ui uppercase tracking-widest text-[#171513]">
+                              PENGURUS HARIAN INTI
+                            </span>
                           </div>
-                        ))}
-                      </div>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                            {pengurusInti3.map((p) => (
+                              <div key={p.id} className="bg-[#FAF8F3] p-3 border border-[#171513] text-center flex flex-col newspaper-shadow-hover">
+                                <div className="w-full aspect-[4/5] overflow-hidden bg-stone-200 border border-[#171513] mb-2">
+                                  <img src={p.foto_url} alt={p.nama} className="w-full h-full object-cover" />
+                                </div>
+                                <h4 className="font-bold font-newspaper text-[#171513] text-sm">
+                                  {p.nama}
+                                </h4>
+                                <p className="text-[10px] text-[#E05A36] font-bold font-ui uppercase tracking-wider mt-1 border-t border-[#EAE5DB] pt-1">
+                                  {p.jabatan}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {anggotaLainnya.length > 0 && (
+                        <div className="space-y-3 pt-4 border-t-2 border-[#1c1917]">
+                          <div className="border-b border-[#1c1917] pb-1 text-center">
+                            <span className="text-[10px] font-bold font-ui uppercase tracking-widest text-[#78716C]">
+                              KOORDINATOR SEKSI & ANGGOTA PRAJURU
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                            {anggotaLainnya.map((p) => (
+                              <div key={p.id} className="bg-[#FAF8F3] p-2 border border-[#D5CFC2] text-center flex flex-col hover:border-[#171513] transition">
+                                <div className="w-full aspect-square overflow-hidden bg-stone-100 border border-[#D5CFC2] mb-1.5">
+                                  <img src={p.foto_url} alt={p.nama} className="w-full h-full object-cover" />
+                                </div>
+                                <h5 className="font-bold font-newspaper text-[#171513] text-xs truncate">
+                                  {p.nama}
+                                </h5>
+                                <p className="text-[9px] text-stone-600 font-ui font-semibold uppercase mt-0.5 truncate">
+                                  {p.jabatan}
+                                </p>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
@@ -875,34 +860,40 @@ function HomePublic() {
                     </span>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-                    {galeri.map((g, idx) => (
-                      <div 
-                        key={g.id} 
-                        onClick={() => setPreviewImage({ url: g.gambar_url, title: g.judul || 'Dokumentasi' })}
-                        className="bg-[#FAF8F3] p-1.5 border border-[#171513] newspaper-shadow-hover transition group cursor-pointer"
-                      >
-                        <div className="aspect-square overflow-hidden bg-stone-100 border border-[#D5CFC2] relative">
-                          <img 
-                            src={g.gambar_url} 
-                            alt={g.judul || 'Dokumentasi'} 
-                            className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
-                          />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-ui font-bold">
-                            🔍 Perbesar
+                  {galeri.length === 0 ? (
+                    <div className="bg-[#FAF8F3] p-12 text-center text-stone-500 border border-dashed border-[#171513] font-editorial">
+                      Belum ada foto galeri yang terunggah.
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                      {galeri.map((g, idx) => (
+                        <div 
+                          key={g.id} 
+                          onClick={() => setPreviewImage({ url: g.gambar_url, title: g.judul || 'Dokumentasi' })}
+                          className="bg-[#FAF8F3] p-1.5 border border-[#171513] newspaper-shadow-hover transition group cursor-pointer"
+                        >
+                          <div className="aspect-square overflow-hidden bg-stone-100 border border-[#D5CFC2] relative">
+                            <img 
+                              src={g.gambar_url} 
+                              alt={g.judul || 'Dokumentasi'} 
+                              className="w-full h-full object-cover group-hover:scale-105 transition duration-500" 
+                            />
+                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center text-white text-xs font-ui font-bold">
+                              🔍 Perbesar
+                            </div>
+                          </div>
+                          <div className="pt-1.5 px-1">
+                            <span className="text-[8px] font-press text-[#78716C] uppercase block">
+                              ARSIP #{String(idx + 1).padStart(2, '0')}
+                            </span>
+                            <p className="text-[11px] font-bold font-newspaper text-[#171513] truncate mt-0.5">
+                              {g.judul || 'Foto Kegiatan'}
+                            </p>
                           </div>
                         </div>
-                        <div className="pt-1.5 px-1">
-                          <span className="text-[8px] font-press text-[#78716C] uppercase block">
-                            ARSIP #{String(idx + 1).padStart(2, '0')}
-                          </span>
-                          <p className="text-[11px] font-bold font-newspaper text-[#171513] truncate mt-0.5">
-                            {g.judul || 'Foto Kegiatan'}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 
@@ -911,7 +902,7 @@ function HomePublic() {
 
         </main>
 
-        {/* 5. GIANT NEWSPAPER FOOTER (PERSIS "PAPERIO NEWS" PADA GAMBAR ACUAN) */}
+        {/* 5. GIANT NEWSPAPER FOOTER (PERSIS PAPERIO NEWS PADA GAMBAR ACUAN) */}
         <footer className="border-t-2 border-[#1c1917] bg-[#EFECE5] pt-6 sm:pt-10 pb-6 px-4 sm:px-8">
           
           <div className="text-center pb-6 border-b border-[#1c1917]">
@@ -922,7 +913,7 @@ function HomePublic() {
               Banjar Sanggar Buana, Denpasar - Bali, Indonesia • Kontak: (0361) 420-9421
             </p>
             
-            {/* Judul Raksasa Surat Kabar di Footer (Persis Paperio News di Gambar) */}
+            {/* Judul Raksasa Surat Kabar di Footer */}
             <h2 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-black font-newspaper text-[#171513] tracking-tighter uppercase select-none opacity-90 leading-none mt-4">
               Paperio News
             </h2>
