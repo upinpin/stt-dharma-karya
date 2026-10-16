@@ -1,10 +1,85 @@
 @import "tailwindcss";
 
+@theme {
+  --font-serif: 'Playfair Display', Georgia, Cambria, serif;
+  --font-news: 'Newsreader', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-masthead: 'Cinzel', 'Playfair Display', serif;
+  --font-mono: 'Courier Prime', monospace;
+
+  --color-paper-bg: #EAE6DF;
+  --color-paper-card: #F7F5EF;
+  --color-paper-light: #FAF9F5;
+  --color-ink-black: #171513;
+  --color-ink-muted: #57524A;
+  --color-ink-light: #7A746B;
+  --color-news-border: #23201D;
+  --color-news-border-light: #D5CFC2;
+  --color-news-accent: #C84B31;
+  --color-news-gold: #B68A2E;
+}
+
 body {
-  background-color: #f5f5f4;
-  color: #292524;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #EAE6DF;
+  color: #171513;
+  font-family: 'Newsreader', Georgia, serif;
   overflow-x: hidden;
+  background-image: 
+    radial-gradient(#d6cfc2 0.75px, transparent 0.75px), 
+    linear-gradient(to bottom, rgba(234, 230, 223, 0.95), rgba(234, 230, 223, 0.95));
+  background-size: 16px 16px, 100% 100%;
+}
+
+.font-newspaper {
+  font-family: 'Playfair Display', Georgia, serif;
+}
+
+.font-editorial {
+  font-family: 'Newsreader', Georgia, serif;
+}
+
+.font-masthead {
+  font-family: 'Cinzel', 'Playfair Display', Georgia, serif;
+}
+
+.font-ui {
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
+.font-press {
+  font-family: 'Courier Prime', monospace;
+}
+
+/* Authentic Newspaper Borders */
+.border-double-thick {
+  border-style: double;
+  border-width: 4px;
+}
+
+.newspaper-rule {
+  border-top: 1px solid #23201D;
+  position: relative;
+}
+
+.newspaper-rule-double {
+  border-top: 3px double #23201D;
+}
+
+.newspaper-rule-dashed {
+  border-top: 1px dashed #7A746B;
+}
+
+/* Editorial Drop Cap */
+.dropcap::first-letter {
+  float: left;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 3.5rem;
+  line-height: 0.8;
+  padding-top: 4px;
+  padding-right: 8px;
+  padding-bottom: 2px;
+  font-weight: 800;
+  color: #171513;
 }
 
 button,
@@ -25,6 +100,56 @@ select {
 img {
   display: block;
   max-width: 100%;
+}
+
+/* Smooth Running News Ticker */
+@keyframes marquee {
+  0% { transform: translateX(0%); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 30s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Vintage Newspaper Stamp / Seal */
+.stamp-seal {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #C84B31;
+  color: #C84B31;
+  padding: 3px 8px;
+  font-family: 'Courier Prime', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  transform: rotate(-2.5deg);
+  opacity: 0.9;
+  user-select: none;
+}
+
+.stamp-seal-dark {
+  border-color: #171513;
+  color: #171513;
+  transform: rotate(2deg);
+}
+
+/* Ink Shadow Lift */
+.newspaper-shadow-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.newspaper-shadow-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 3px 3px 0px 0px #171513;
 }
 
 button,
